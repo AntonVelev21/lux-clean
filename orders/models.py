@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from core.choices import CityChoices, StatusChoices
-from core.validators import ClientPhoneValidator
+from core.validators import ClientPhoneValidator, PositiveDateValidator
 
 
 class Order(models.Model):
@@ -13,7 +13,9 @@ class Order(models.Model):
     email = models.EmailField(blank=True)
     city = models.CharField(max_length=30, choices=CityChoices.choices)
     address = models.TextField()
-    requested_date = models.DateTimeField()
+    requested_date = models.DateTimeField(validators=[
+        PositiveDateValidator()
+    ])
     total_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[
         MinValueValidator(0.00, 'The total order price cannot be negative.')
     ])
@@ -25,7 +27,7 @@ class Order(models.Model):
         return f"Поръчка #{self.id} от {self.full_name}"
 
 
-class RequestItem(models.Model):
+class OrderItem(models.Model):
     order = models.ForeignKey('Order', related_name='items', on_delete=models.CASCADE)
     service = models.ForeignKey('services.ServiceVariant', related_name='items', on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(default=1)

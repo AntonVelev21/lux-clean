@@ -1,3 +1,12 @@
 from django.contrib import admin
+from services.models import Service, ServiceVariant
 
-# Register your models here.
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    ...
+
+
+@admin.register(ServiceVariant)
+class ServiceVariantAdmin(admin.ModelAdmin):
+    ...

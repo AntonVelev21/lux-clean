@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-PROJECT_APPS = ['web', 'services', 'requests', 'users', 'core']
+PROJECT_APPS = ['web', 'services', 'orders', 'users', 'core']
 
 
 INSTALLED_APPS = [
