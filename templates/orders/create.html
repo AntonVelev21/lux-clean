@@ -1,0 +1,71 @@
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="fw-bold">Заявете почистване</h2>
+            <p class="text-muted">Попълнете вашите данни и изберете желаните услуги. Ние ще се свържем с вас за потвърждение.</p>
+        </div>
+    </div>
+
+    <!-- ВАЖНО: Този form таг обхваща и двете колони! -->
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <!-- ЛЯВА КОЛОНА: Данни за контакт (Django Form) -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white pt-4 pb-2 border-0">
+                        <h4 class="mb-0">Вашите данни</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Обхождаме полетата на формата едно по едно за по-добър контрол -->
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label fw-bold">
+                                    {{ field.label }}
+                                </label>
+
+                                <!-- Самото поле (във forms.py вече му дадохме клас form-control) -->
+                                {{ field }}
+
+                                <!-- Показване на помощни текстове, ако има такива -->
+                                {% if field.help_text %}
+                                    <div class="form-text">{{ field.help_text }}</div>
+                                {% endif %}
+
+                                <!-- Показване на грешки (напр. ако телефонът е невалиден) -->
+                                {% for error in field.errors %}
+                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ДЯСНА КОЛОНА: Калкулатор за услуги -->
+            <div class="col-lg-6 mb-4">
+
+                <!-- Тук инжектираме калкулатора, който написахме преди малко -->
+                {% include 'common/service_calculator.html' %}
+
+                <!-- Финален бутон за изпращане -->
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                        Изпрати заявката
+                    </button>
+                    <small class="text-center text-muted mt-2">
+                        С натискането на бутона се съгласявате с общите условия.
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+{% endblock %}

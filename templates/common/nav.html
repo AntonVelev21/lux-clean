@@ -1,0 +1,41 @@
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+            <div class="flex items-center">
+                <a href="/" class="flex-shrink-0 flex items-center gap-2">
+                    <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    <span class="font-bold text-xl text-slate-800 tracking-tight">Clean<span class="text-brand-blue">Service</span></span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex md:items-center md:space-x-8">
+                <a href="{% url 'services:list' %}" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Услуги</a>
+                <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Цени</a>
+                <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">За нас</a>
+                <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Контакти</a>
+
+                <a href="#" class="bg-brand-orange hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Запази час
+                </a>
+            </div>
+
+            <div class="flex items-center md:hidden">
+                <button type="button" id="mobile-menu-button" class="text-slate-500 hover:text-brand-blue focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-slate-100">
+        <div class="px-4 pt-2 pb-6 space-y-2 text-center">
+            <a href="#" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-brand-blue hover:bg-slate-50">Услуги</a>
+            <a href="#" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-brand-blue hover:bg-slate-50">Цени</a>
+            <a href="#" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-brand-blue hover:bg-slate-50">За нас</a>
+            <a href="#" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-brand-blue hover:bg-slate-50">Контакти</a>
+            <a href="#" class="block w-full mt-4 bg-brand-orange text-white px-5 py-3 rounded-lg font-bold">Запази час</a>
+        </div>
+    </div>
+</nav>

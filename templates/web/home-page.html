@@ -1,0 +1,168 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}Професионално пране на мека мебел | CleanService{% endblock %}
+{% block description %}Върнете живота на вашата мека мебел с нашето професионално машинно изпиране. Екологични препарати, безопасни за деца и домашни любимци.{% endblock %}
+
+{% block content %}
+<!-- 1. HERO СЕКЦИЯ (Главно грабване на вниманието) -->
+<section class="relative bg-slate-900 overflow-hidden">
+    <!-- Фоново изображение (Смени URL-а с реална твоя снимка на изпран диван) -->
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1920&auto=format&fit=crop" alt="Пране на диван" class="w-full h-full object-cover opacity-40">
+    </div>
+    
+    <!-- Градиент за по-добра четимост -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col justify-center min-h-[70vh]">
+        <div class="max-w-2xl">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-blue/20 text-brand-electric font-semibold text-sm mb-6 border border-brand-blue/30 backdrop-blur-sm">
+                #1 в професионалното почистване
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
+                Върнете живота на вашата <span class="text-brand-blue">мека мебел</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-light">
+                Премахваме упорити петна, прах и акари директно във вашия дом. Използваме 100% безопасни и екологични препарати.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+                <!-- ВАЖНО: Тук сложи правилното име на твоето View за създаване на поръчка -->
+                <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
+                    Изчисли цена веднага
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. БЪРЗИ ПОЛЗИ (Trust Badges) -->
+<section class="bg-white py-10 border-b border-slate-100 relative z-10 -mt-10 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8">
+        <div class="flex items-center gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-green-50 text-brand-green rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-800">Еко препарати</h4>
+                <p class="text-sm text-slate-500">Безопасни за деца и животни</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 md:border-l md:border-slate-100 md:pl-8">
+            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-800">Бързо съхнене</h4>
+                <p class="text-sm text-slate-500">Готово за ползване до часове</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 md:border-l md:border-slate-100 md:pl-8">
+            <div class="flex-shrink-0 w-12 h-12 bg-orange-50 text-brand-orange rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-800">Ясни цени</h4>
+                <p class="text-sm text-slate-500">Без скрити такси на място</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. КАК РАБОТИ (Процесът) -->
+<section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-brand-blue font-semibold tracking-wide uppercase text-sm mb-2">Процесът</h2>
+            <h3 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Лесно, бързо и напълно прозрачно</h3>
+            <p class="text-slate-600 text-lg">Уважаваме вашето време. Създадохме система, с която да резервирате почистване само с няколко клика.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <!-- Стъпка 1 -->
+            <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-3">1. Изберете услуги</h4>
+                <p class="text-slate-600 leading-relaxed">Въведете бройката на диваните, матраците или столовете в нашия онлайн калкулатор и вижте точната сума веднага.</p>
+            </div>
+            
+            <!-- Стъпка 2 -->
+            <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-brand-orange/10 rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-3">2. Запазете час</h4>
+                <p class="text-slate-600 leading-relaxed">Попълнете вашите данни и посочете удобна за вас дата. Системата ще запази часа ви автоматично.</p>
+            </div>
+
+            <!-- Стъпка 3 -->
+            <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-brand-green/10 rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-3">3. Ние се грижим за всичко</h4>
+                <p class="text-slate-600 leading-relaxed">Нашите специалисти пристигат на адреса с професионална техника. Вие просто се насладете на свежестта.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. ЗАЩО НИЕ (Снимка + Текст) -->
+<section class="py-20 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            <!-- Снимка -->
+            <div class="w-full lg:w-1/2 relative">
+                <!-- Декоративен елемент зад снимката -->
+                <div class="absolute inset-0 bg-brand-blue/10 rounded-3xl transform translate-x-4 translate-y-4"></div>
+                <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1000&auto=format&fit=crop" alt="Процес на пране" class="relative rounded-3xl shadow-2xl object-cover h-[500px] w-full">
+            </div>
+
+            <!-- Текст -->
+            <div class="w-full lg:w-1/2">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6">Дълбоко почистване, което не можете да постигнете сами</h2>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                    Домакинските прахосмукачки и препарати почистват само повърхността. Нашата технология за екстракция с гореща вода (спрей-екстракция) извлича мръсотията, прахта и акарите от дълбочината на тъканите.
+                </p>
+                
+                <ul class="space-y-5 mb-10">
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <span class="ml-4 text-slate-700 font-medium">Удължава живота на мебелите ви</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <span class="ml-4 text-slate-700 font-medium">Подобрява качеството на въздуха в стаята</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <span class="ml-4 text-slate-700 font-medium">Неутрализира неприятни миризми (домашни любимци, цигари)</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. FINAL CTA (Призив за действие) -->
+<section class="py-20 bg-brand-electric">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Готови ли сте за безупречна чистота?</h2>
+        <p class="text-xl text-cyan-50 mb-10">Направете резервация за по-малко от 2 минути и запазете своя час.</p>
+        <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-10 py-4 bg-white text-brand-electric rounded-full font-bold text-lg hover:bg-slate-50 hover:shadow-xl transition-all transform hover:-translate-y-1">
+            Към онлайн калкулатора
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        </a>
+    </div>
+</section>
+{% endblock %}

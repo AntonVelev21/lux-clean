@@ -1,0 +1,77 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}Нашите Услуги | CleanService{% endblock %}
+{% block description %}Разгледайте нашите професионални услуги за почистване и техните ценови варианти.{% endblock %}
+
+{% block content %}
+<section class="bg-slate-50 py-16 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4 tracking-tight">Нашите Услуги и <span class="text-brand-blue">Цени</span></h1>
+        <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+            Прозрачно ценообразуване, без скрити такси. Изберете услугата, която ви е нужна, и вижте точните цени за различните варианти.
+        </p>
+    </div>
+</section>
+
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        {% for service in object_list %}
+        <div class="reveal-on-scroll flex flex-col lg:flex-row bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-300">
+
+            <div class="lg:w-2/5 relative h-64 lg:h-auto">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}" class="absolute inset-0 w-full h-full object-cover">
+                {% else %}
+                    <div class="absolute inset-0 w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                        <i class="bi bi-image text-4xl"></i>
+                    </div>
+                {% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent lg:bg-gradient-to-r"></div>
+            </div>
+
+            <div class="lg:w-3/5 p-8 md:p-10 flex flex-col">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-3">{{ service.name }}</h2>
+                    <p class="text-slate-600 leading-relaxed">{{ service.description }}</p>
+                </div>
+
+                <div class="mt-auto pt-6 border-t border-slate-100">
+                    <h3 class="text-sm font-bold text-brand-blue uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                        Варианти и цени
+                    </h3>
+
+                    <ul class="space-y-3 mb-8">
+                        {% for variant in service.variants.all %}
+                        <li class="flex justify-between items-center py-2 group">
+                            <span class="text-slate-700 font-medium group-hover:text-brand-blue transition-colors">{{ variant.name }}</span>
+                            <div class="flex-grow border-b-2 border-dotted border-slate-200 mx-4 relative top-2"></div>
+                            <span class="text-lg font-bold text-brand-green bg-green-50 px-3 py-1 rounded-lg">{{ variant.price }} лв.</span>
+                        </li>
+                        {% empty %}
+                        <li class="text-slate-400 italic text-sm">В момента няма въведени варианти за тази услуга.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="flex justify-end">
+                        <a href="{% url 'orders:create' %}" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-brand-blue text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-300">
+                            Резервирай
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+            <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <h3 class="text-xl font-bold text-slate-600 mb-2">Все още няма добавени услуги</h3>
+            <p class="text-slate-500">Моля, добавете услуги през административния панел.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}
