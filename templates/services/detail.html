@@ -1,0 +1,91 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}{{ service.name }} | CleanService{% endblock %}
+
+{% block content %}
+<section class="relative bg-slate-900 h-[50vh] min-h-[400px] overflow-hidden flex items-center">
+
+    {% if service.image %}
+        <div class="absolute inset-0 z-0">
+            <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover">
+        </div>
+    {% endif %}
+
+    <div class="absolute inset-0 bg-slate-900/80 z-0"></div>
+
+    <a href="{% url 'services:list' %}" class="absolute top-8 left-4 sm:left-6 lg:left-12 inline-flex items-center text-slate-300 hover:text-white font-medium transition-colors bg-white/5 hover:bg-white/10 px-5 py-2 rounded-full border border-white/20 z-20 shadow-sm backdrop-blur-sm">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Назад
+    </a>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-md">
+            {{ first_part }} {{ second_part }} <span class="text-brand-blue">{{ last_part }}</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto font-light line-clamp-2 drop-shadow-sm">
+            {{ service.description }}
+        </p>
+    </div>
+</section>
+
+<section class="bg-slate-50 min-h-screen py-20 relative">
+
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-orange/5 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/4"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        <div class="flex items-center gap-6 mb-12">
+            <h2 class="text-3xl font-bold text-slate-800">Изберете конкретен вариант</h2>
+            <div class="h-px bg-slate-200 flex-grow mt-2"></div>
+        </div>
+
+        <div class="space-y-8">
+            {% for variant in service.variants.all %}
+
+            <div class="group flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border-2 border-transparent shadow-sm hover:shadow-xl hover:border-brand-orange transition-all duration-300">
+
+                <div class="md:w-2/5 relative min-h-[250px] bg-slate-100 overflow-hidden border-r border-slate-100 flex-shrink-0">
+                    {% if variant.image %}
+                        <img src="{{ variant.image.url }}" alt="{{ variant.name }}" class="absolute inset-0 w-full h-full object-cover origin-bottom transition-all duration-700 ease-in-out group-hover:-rotate-2 group-hover:scale-[1.02]">
+                    {% else %}
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
+                            <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="text-sm font-medium">Снимка на варианта</span>
+                        </div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900/5 pointer-events-none"></div>
+                </div>
+
+                <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center relative w-full">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-bl-[100px] -z-10 transition-colors duration-300 group-hover:bg-brand-orange/10"></div>
+
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">{{ variant.name }}</h3>
+
+                    <div class="mb-8">
+                        <span class="text-sm font-bold text-brand-orange uppercase tracking-wider mb-1 block">Ориентировъчна цена</span>
+                        <div class="text-4xl md:text-5xl font-black text-slate-800 flex items-baseline gap-2">
+                            {{ variant.price }} <span class="text-xl font-medium text-slate-400">€.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 bg-white border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white font-bold rounded-xl transition-all duration-300 shadow-sm w-full sm:w-auto group/btn">
+                            Резервирай този вариант
+                            <svg class="w-5 h-5 ml-2 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            {% empty %}
+            <div class="bg-white p-12 rounded-2xl text-center border border-dashed border-slate-300 shadow-sm">
+                <p class="text-slate-500 text-lg">Все още няма въведени варианти за тази услуга.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+{% endblock %}
