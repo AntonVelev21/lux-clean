@@ -2,7 +2,8 @@ from django.db import models
 
 
 class CityChoices(models.TextChoices):
-    SOFIA = 'sofia', 'Sofia'
+    SOFIA = 'sofia', 'София'
+
 
 
 class StatusChoices(models.TextChoices):

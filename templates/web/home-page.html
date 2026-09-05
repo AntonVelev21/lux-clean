@@ -5,14 +5,11 @@
 {% block description %}Върнете живота на вашата мека мебел с нашето професионално машинно изпиране. Екологични препарати, безопасни за деца и домашни любимци.{% endblock %}
 
 {% block content %}
-<!-- 1. HERO СЕКЦИЯ (Главно грабване на вниманието) -->
 <section class="relative bg-slate-900 overflow-hidden">
-    <!-- Фоново изображение (Смени URL-а с реална твоя снимка на изпран диван) -->
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1920&auto=format&fit=crop" alt="Пране на диван" class="w-full h-full object-cover opacity-40">
+        <img src="{% static 'images/hero_section_homepage.jpg' %}" alt="Пране на диван" class="w-full h-full object-cover opacity-40">
     </div>
-    
-    <!-- Градиент за по-добра четимост -->
+
     <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent"></div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col justify-center min-h-[70vh]">
@@ -28,7 +25,6 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4">
-                <!-- ВАЖНО: Тук сложи правилното име на твоето View за създаване на поръчка -->
                 <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
                     Изчисли цена веднага
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -38,7 +34,6 @@
     </div>
 </section>
 
-<!-- 2. БЪРЗИ ПОЛЗИ (Trust Badges) -->
 <section class="bg-white py-10 border-b border-slate-100 relative z-10 -mt-10 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8">
         <div class="flex items-center gap-4">
@@ -71,7 +66,6 @@
     </div>
 </section>
 
-<!-- 3. КАК РАБОТИ (Процесът) -->
 <section class="py-20 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
@@ -81,7 +75,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <!-- Стъпка 1 -->
             <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                 <div class="w-16 h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -89,8 +82,7 @@
                 <h4 class="text-xl font-bold text-slate-800 mb-3">1. Изберете услуги</h4>
                 <p class="text-slate-600 leading-relaxed">Въведете бройката на диваните, матраците или столовете в нашия онлайн калкулатор и вижте точната сума веднага.</p>
             </div>
-            
-            <!-- Стъпка 2 -->
+
             <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                 <div class="w-16 h-16 bg-brand-orange/10 rounded-2xl flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -99,7 +91,6 @@
                 <p class="text-slate-600 leading-relaxed">Попълнете вашите данни и посочете удобна за вас дата. Системата ще запази часа ви автоматично.</p>
             </div>
 
-            <!-- Стъпка 3 -->
             <div class="relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                 <div class="w-16 h-16 bg-brand-green/10 rounded-2xl flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
@@ -111,18 +102,14 @@
     </div>
 </section>
 
-<!-- 4. ЗАЩО НИЕ (Снимка + Текст) -->
 <section class="py-20 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row items-center gap-16">
-            <!-- Снимка -->
             <div class="w-full lg:w-1/2 relative">
-                <!-- Декоративен елемент зад снимката -->
                 <div class="absolute inset-0 bg-brand-blue/10 rounded-3xl transform translate-x-4 translate-y-4"></div>
                 <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1000&auto=format&fit=crop" alt="Процес на пране" class="relative rounded-3xl shadow-2xl object-cover h-[500px] w-full">
             </div>
 
-            <!-- Текст -->
             <div class="w-full lg:w-1/2">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-6">Дълбоко почистване, което не можете да постигнете сами</h2>
                 <p class="text-lg text-slate-600 mb-8 leading-relaxed">
@@ -154,7 +141,6 @@
     </div>
 </section>
 
-<!-- 5. FINAL CTA (Призив за действие) -->
 <section class="py-20 bg-brand-electric">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Готови ли сте за безупречна чистота?</h2>

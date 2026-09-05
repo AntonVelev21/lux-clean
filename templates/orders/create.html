@@ -1,71 +1,145 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/calculator.css' %}">
+{% endblock %}
+
+{% block title %}Направете запитване | CleanService{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h2 class="fw-bold">Заявете почистване</h2>
-            <p class="text-muted">Попълнете вашите данни и изберете желаните услуги. Ние ще се свържем с вас за потвърждение.</p>
-        </div>
+<section class="relative bg-slate-900 overflow-hidden flex items-center justify-center pt-28 pb-48" style="background-image: url('{% static 'images/hero_section_orders_create.jpg' %}'); background-size: cover; background-position: center;">
+
+    <div class="absolute inset-0 bg-slate-900/70 z-0"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight drop-shadow-md">
+            Направете <span class="text-brand-blue">Запитване</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto font-light drop-shadow-sm">
+            Изберете услугите чрез калкулатора и въведете вашите данни.
+        </p>
     </div>
+</section>
 
-    <!-- ВАЖНО: Този form таг обхваща и двете колони! -->
-    <form method="POST" action="">
-        {% csrf_token %}
+<section class="pb-12 relative">
 
-        <div class="row">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-32">
 
-            <!-- ЛЯВА КОЛОНА: Данни за контакт (Django Form) -->
-            <div class="col-lg-6 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-white pt-4 pb-2 border-0">
-                        <h4 class="mb-0">Вашите данни</h4>
-                    </div>
-                    <div class="card-body">
+        <form method="POST" id="order-form" class="bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+            {% csrf_token %}
 
-                        <!-- Обхождаме полетата на формата едно по едно за по-добър контрол -->
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label fw-bold">
-                                    {{ field.label }}
-                                </label>
+            <div class="w-full bg-[#0F1A2E] p-8 md:p-10 border-b-4 border-[#00AEEF]">
+                <h2 class="text-2xl font-bold text-white mb-2">Изберете услуги</h2>
+                <p class="text-slate-400 mb-8 border-b border-slate-700/50 pb-6">Кликнете върху категория, за да разгънете възможните варианти.</p>
 
-                                <!-- Самото поле (във forms.py вече му дадохме клас form-control) -->
-                                {{ field }}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+                    {% for service in services %}
+                    <div class="service-accordion h-fit bg-slate-800/50 rounded-xl overflow-hidden transition-all duration-200 border border-slate-700/50 hover:border-slate-600">
 
-                                <!-- Показване на помощни текстове, ако има такива -->
-                                {% if field.help_text %}
-                                    <div class="form-text">{{ field.help_text }}</div>
+                        <button type="button" class="accordion-trigger w-full flex justify-between items-center p-4 hover:bg-slate-800 transition-colors">
+                            <div class="flex items-center gap-3">
+                                {% if service.image %}
+                                    <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-10 h-10 rounded-lg object-cover border border-slate-700">
+                                {% else %}
+                                    <div class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-[#00AEEF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
                                 {% endif %}
+                                <span class="text-base font-bold text-slate-100">{{ service.name }}</span>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-300 arrow-icon {% if service.id == requested_variant.service.id %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
 
-                                <!-- Показване на грешки (напр. ако телефонът е невалиден) -->
-                                {% for error in field.errors %}
-                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                        <div class="accordion-content px-4 py-2 border-t border-slate-700/50 bg-slate-900/40 {% if service.id != requested_variant.service.id %}hidden{% endif %}">
+                            <div class="divide-y divide-slate-700/30">
+                                {% for variant in service.variants.all %}
+                                <div class="py-3 flex flex-col gap-2">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="font-bold text-slate-200 text-sm leading-tight flex-1 pr-4">{{ variant.name }}</h4>
+                                        <p class="text-[#00AEEF] font-black text-sm whitespace-nowrap">{{ variant.price }} €</p>
+                                    </div>
+
+                                    <div class="flex items-center bg-[#0F1A2E] rounded-lg p-1 w-28 justify-between border border-slate-700 mt-1">
+                                        <button type="button" class="qty-btn minus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">-</button>
+
+                                        <input type="number" name="variant_{{ variant.id }}"
+                                               value="{% if variant.id == requested_variant.id %}1{% else %}0{% endif %}"
+                                               min="0" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
+                                               autocomplete="off"
+                                               class="variant-input w-8 text-center bg-transparent border-none focus:ring-0 text-white font-bold p-0 text-sm">
+
+                                        <button type="button" class="qty-btn plus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">+</button>
+                                    </div>
+                                </div>
                                 {% endfor %}
                             </div>
-                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
 
+            <div class="w-full bg-[#F4F7FA] p-8 md:p-10 flex flex-col lg:flex-row gap-12">
+
+                <div class="w-full lg:w-1/2 flex flex-col">
+                    <span class="text-[#00AEEF] text-xs font-black uppercase tracking-widest mb-1">Вашата оферта</span>
+                    <h2 class="text-3xl font-black text-slate-800 mb-6">Избрани услуги</h2>
+
+                    <div id="selected-services-container" class="space-y-3 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex-grow">
+                        <div class="text-slate-400 italic text-sm">
+                            Все още нямате избрани услуги. Добавете от калкулатора по-горе.
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ДЯСНА КОЛОНА: Калкулатор за услуги -->
-            <div class="col-lg-6 mb-4">
+                <div class="w-full lg:w-1/2 flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">Вашите данни</h3>
 
-                <!-- Тук инжектираме калкулатора, който написахме преди малко -->
-                {% include 'common/service_calculator.html' %}
+                    {% if form.non_field_errors %}
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md">
+                        {% for error in form.non_field_errors %}
+                            <p class="text-red-700 font-medium">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
-                <!-- Финален бутон за изпращане -->
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
-                        Изпрати заявката
-                    </button>
-                    <small class="text-center text-muted mt-2">
-                        С натискането на бутона се съгласявате с общите условия.
-                    </small>
+                    <div class="space-y-4 mb-8">
+                        {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-1 ml-1">
+                                {{ field.label }}
+                            </label>
+                            <div class="[&>input]:w-full [&>input]:bg-slate-50 [&>input]:border [&>input]:border-slate-200 [&>input]:rounded-xl [&>input]:px-4 [&>input]:py-3 [&>input]:text-slate-700 [&>input]:focus:border-[#00AEEF] [&>input]:focus:ring-1 [&>input]:focus:ring-[#00AEEF] [&>input]:transition-colors [&>textarea]:w-full [&>textarea]:bg-slate-50 [&>textarea]:border [&>textarea]:border-slate-200 [&>textarea]:rounded-xl [&>textarea]:px-4 [&>textarea]:py-3 [&>textarea]:focus:border-[#00AEEF] [&>textarea]:focus:ring-1 [&>textarea]:focus:ring-[#00AEEF] [&>select]:w-full [&>select]:bg-slate-50 [&>select]:border [&>select]:border-slate-200 [&>select]:rounded-xl [&>select]:px-4 [&>select]:py-3 [&>select]:focus:border-[#00AEEF] [&>select]:focus:ring-1 [&>select]:focus:ring-[#00AEEF]">
+                               {{ field }}
+                            </div>
+                            {% if field.errors %}
+                                <p class="text-red-500 text-xs mt-1 font-semibold ml-1">{{ field.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-auto bg-white p-5 rounded-xl border border-slate-200 shadow-md">
+                        <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Обща цена:</span>
+                            <span class="text-3xl font-black text-[#00AEEF]"><span id="total-price-display">0.00</span>€</span>
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#FF7300] hover:bg-[#e66a00] text-white font-black text-lg py-4 rounded-xl transition duration-300 shadow-lg shadow-[#FF7300]/30 transform hover:-translate-y-1 flex justify-center items-center gap-2 group">
+                            ЗАВЪРШИ ПОРЪЧКАТА
+                            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                        <p class="text-center text-xs text-slate-400 mt-3 font-medium">Ще се свържем с вас за потвърждение на часа.</p>
+                    </div>
                 </div>
 
             </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
 
-        </div>
-    </form>
-</div>
+{% block extra_js %}
+<script src="{% static 'js/calculator.js' %}"></script>
 {% endblock %}

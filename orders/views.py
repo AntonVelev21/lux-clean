@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from orders.forms import OrderCreateForm
@@ -17,6 +17,14 @@ class CreateOrderView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['services'] = Service.objects.prefetch_related('variants').all()
+        variant_id = self.request.GET.get('variant_id')
+        try:
+            variant = ServiceVariant.objects.get(id=variant_id)
+            context['requested_variant'] = variant
+
+        except ServiceVariant.DoesNotExist:
+            context['requested_variant'] = None
+
         return context
 
 
@@ -24,8 +32,10 @@ class CreateOrderView(CreateView):
         with transaction.atomic():
             self.object = form.save(commit=False)
             self.object.total_price = 0
+            self.object.total_execution_time_in_minutes = 0
             self.object.save()
             calculated_real_total_price = 0
+            calculated_total_execution_time = 0
             has_valid_services = False
 
             for key, value in self.request.POST.items():
@@ -45,6 +55,7 @@ class CreateOrderView(CreateView):
                                 quantity=quantity
                             )
                             calculated_real_total_price += quantity * variant.price
+                            calculated_total_execution_time += quantity * variant.execution_time_in_minutes
                             has_valid_services = True
 
                         except ServiceVariant.DoesNotExist:
@@ -57,8 +68,13 @@ class CreateOrderView(CreateView):
                 return self.form_invalid(form)
 
             self.object.total_price = calculated_real_total_price
-            self.object.save(update_fields=['total_price'])
+            self.object.total_execution_time_in_minutes = calculated_total_execution_time
+            self.object.save(update_fields=['total_price', 'total_execution_time_in_minutes'])
 
         return HttpResponseRedirect(self.get_success_url())
 
 
+
+
+def get_available_days_for_order(request: HttpRequest) -> HttpResponse:
+    ...

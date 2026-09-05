@@ -19,6 +19,7 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[
         MinValueValidator(0.00, 'The total order price cannot be negative.')
     ])
+    total_execution_time_in_minutes = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=30, choices=StatusChoices.choices, default=StatusChoices.NEW)

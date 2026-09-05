@@ -9,12 +9,11 @@
             </div>
 
             <div class="hidden md:flex md:items-center md:space-x-8">
-                <a href="{% url 'services:list' %}" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Услуги</a>
-                <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Цени</a>
+                <a href="{% url 'services:list' %}" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Услуги & Цени</a>
                 <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">За нас</a>
                 <a href="#" class="text-slate-600 hover:text-brand-blue transition-colors font-medium">Контакти</a>
 
-                <a href="#" class="bg-brand-orange hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <a href="{% url 'orders:create' %}" class="bg-brand-orange hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Запази час
                 </a>
             </div>
