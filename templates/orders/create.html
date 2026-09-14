@@ -26,83 +26,104 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-32">
 
-        <form method="POST" id="order-form" class="bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+        <form method="POST" id="order-form" class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
             {% csrf_token %}
 
-            <div class="w-full bg-[#0F1A2E] p-8 md:p-10 border-b-4 border-[#00AEEF]">
+            <div id="calculator-step" class="w-full bg-[#0F1A2E] p-8 md:p-10 border-b-4 border-[#00AEEF] {% if form.errors and not form.non_field_errors %}hidden{% endif %}">
                 <h2 class="text-2xl font-bold text-white mb-2">Изберете услуги</h2>
                 <p class="text-slate-400 mb-8 border-b border-slate-700/50 pb-6">Кликнете върху категория, за да разгънете възможните варианти.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-                    {% for service in services %}
-                    <div class="service-accordion h-fit bg-slate-800/50 rounded-xl overflow-hidden transition-all duration-200 border border-slate-700/50 hover:border-slate-600">
+                {% if form.non_field_errors %}
+                <div class="bg-red-500/10 border-l-4 border-red-500 p-4 mb-8 rounded-md">
+                    {% for error in form.non_field_errors %}
+                        <p class="text-red-400 font-medium">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-                        <button type="button" class="accordion-trigger w-full flex justify-between items-center p-4 hover:bg-slate-800 transition-colors">
-                            <div class="flex items-center gap-3">
-                                {% if service.image %}
-                                    <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-10 h-10 rounded-lg object-cover border border-slate-700">
-                                {% else %}
-                                    <div class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-[#00AEEF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    </div>
-                                {% endif %}
-                                <span class="text-base font-bold text-slate-100">{{ service.name }}</span>
-                            </div>
-                            <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-300 arrow-icon {% if service.id == requested_variant.service.id %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
+                <div class="flex flex-col xl:flex-row gap-8 items-start">
 
-                        <div class="accordion-content px-4 py-2 border-t border-slate-700/50 bg-slate-900/40 {% if service.id != requested_variant.service.id %}hidden{% endif %}">
-                            <div class="divide-y divide-slate-700/30">
-                                {% for variant in service.variants.all %}
-                                <div class="py-3 flex flex-col gap-2">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-bold text-slate-200 text-sm leading-tight flex-1 pr-4">{{ variant.name }}</h4>
-                                        <p class="text-[#00AEEF] font-black text-sm whitespace-nowrap">{{ variant.price }} €</p>
-                                    </div>
+                    <div class="w-full xl:flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        {% for service in services %}
+                        <div class="service-accordion h-fit bg-slate-800/50 rounded-xl overflow-hidden transition-all duration-200 border border-slate-700/50 hover:border-slate-600">
 
-                                    <div class="flex items-center bg-[#0F1A2E] rounded-lg p-1 w-28 justify-between border border-slate-700 mt-1">
-                                        <button type="button" class="qty-btn minus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">-</button>
-
-                                        <input type="number" name="variant_{{ variant.id }}"
-                                               value="{% if variant.id == requested_variant.id %}1{% else %}0{% endif %}"
-                                               min="0" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
-                                               autocomplete="off"
-                                               class="variant-input w-8 text-center bg-transparent border-none focus:ring-0 text-white font-bold p-0 text-sm">
-
-                                        <button type="button" class="qty-btn plus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">+</button>
-                                    </div>
+                            <button type="button" class="accordion-trigger w-full flex justify-between items-center p-4 hover:bg-slate-800 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    {% if service.image %}
+                                        <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-10 h-10 rounded-lg object-cover border border-slate-700">
+                                    {% else %}
+                                        <div class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-[#00AEEF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                    {% endif %}
+                                    <span class="text-base font-bold text-slate-100">{{ service.name }}</span>
                                 </div>
-                                {% endfor %}
+                                <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-300 arrow-icon {% if service.id == requested_variant.service.id %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <div class="accordion-content px-4 py-2 border-t border-slate-700/50 bg-slate-900/40 {% if service.id != requested_variant.service.id %}hidden{% endif %}">
+                                <div class="divide-y divide-slate-700/30">
+                                    {% for variant in service.variants.all %}
+                                    <div class="py-3 flex flex-col gap-2">
+                                        <div class="flex justify-between items-start">
+                                            <h4 class="font-bold text-slate-200 text-sm leading-tight flex-1 pr-4">{{ variant.name }}</h4>
+                                            <p class="text-[#00AEEF] font-black text-sm whitespace-nowrap">{{ variant.price }} €</p>
+                                        </div>
+
+                                        <div class="flex items-center bg-[#0F1A2E] rounded-lg p-1 w-28 justify-between border border-slate-700 mt-1">
+                                            <button type="button" class="qty-btn minus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">-</button>
+
+                                            <input type="number" name="variant_{{ variant.id }}"
+                                                   value="{% if variant.id == requested_variant.id %}1{% else %}0{% endif %}"
+                                                   min="0" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
+                                                   autocomplete="off"
+                                                   class="variant-input w-8 text-center bg-transparent border-none focus:ring-0 text-white font-bold p-0 text-sm">
+
+                                            <button type="button" class="qty-btn plus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">+</button>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+
+                    <div class="w-full xl:w-96 xl:sticky xl:top-8 flex-shrink-0">
+                        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                            <span class="text-[#00AEEF] text-xs font-black uppercase tracking-widest mb-1 block">Вашата оферта</span>
+                            <h3 class="text-xl font-black text-white mb-4">Избрани услуги</h3>
+
+                            <div id="selected-services-container" class="space-y-3 mb-6 max-h-80 overflow-y-auto pr-1">
+                                <div class="text-slate-400 italic text-sm">
+                                    Все още нямате избрани услуги. Добавете от калкулатора.
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center border-t border-slate-700 pt-4 mb-6">
+                                <span class="text-sm font-bold text-slate-400 uppercase tracking-wider">Обща цена:</span>
+                                <span class="text-2xl font-black text-[#00AEEF]"><span id="total-price-display">0.00</span>€</span>
+                            </div>
+
+                            <button type="button" id="continue-to-details-btn" class="w-full bg-[#FF7300] hover:bg-[#e66a00] text-white font-black py-3.5 rounded-xl transition duration-300 shadow-lg shadow-[#FF7300]/30 transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group">
+                                Продължи към данните
+                                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+                            <p id="continue-error" class="hidden text-red-400 text-xs mt-3 text-center font-semibold">Моля, изберете поне една услуга.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="w-full bg-[#F4F7FA] p-8 md:p-10 flex flex-col lg:flex-row gap-12">
+            <div id="details-step" class="w-full bg-[#F4F7FA] p-8 md:p-10 {% if not form.errors or form.non_field_errors %}hidden{% endif %}">
+                <div class="max-w-2xl mx-auto">
+                    <button type="button" id="back-to-calculator-btn" class="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-[#00AEEF] transition-colors mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Назад към услугите
+                    </button>
 
-                <div class="w-full lg:w-1/2 flex flex-col">
-                    <span class="text-[#00AEEF] text-xs font-black uppercase tracking-widest mb-1">Вашата оферта</span>
-                    <h2 class="text-3xl font-black text-slate-800 mb-6">Избрани услуги</h2>
-
-                    <div id="selected-services-container" class="space-y-3 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex-grow">
-                        <div class="text-slate-400 italic text-sm">
-                            Все още нямате избрани услуги. Добавете от калкулатора по-горе.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full lg:w-1/2 flex flex-col">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">Вашите данни</h3>
-
-                    {% if form.non_field_errors %}
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md">
-                        {% for error in form.non_field_errors %}
-                            <p class="text-red-700 font-medium">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
 
                     <div class="space-y-4 mb-8">
                         {% for field in form %}
@@ -129,12 +150,7 @@
                         {% endfor %}
                     </div>
 
-                    <div class="mt-auto bg-white p-5 rounded-xl border border-slate-200 shadow-md">
-                        <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
-                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Обща цена:</span>
-                            <span class="text-3xl font-black text-[#00AEEF]"><span id="total-price-display">0.00</span>€</span>
-                        </div>
-
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-md">
                         <button type="submit" class="w-full bg-[#FF7300] hover:bg-[#e66a00] text-white font-black text-lg py-4 rounded-xl transition duration-300 shadow-lg shadow-[#FF7300]/30 transform hover:-translate-y-1 flex justify-center items-center gap-2 group">
                             ЗАВЪРШИ ПОРЪЧКАТА
                             <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -142,7 +158,6 @@
                         <p class="text-center text-xs text-slate-400 mt-3 font-medium">Ще се свържем с вас за потвърждение на часа.</p>
                     </div>
                 </div>
-
             </div>
         </form>
 

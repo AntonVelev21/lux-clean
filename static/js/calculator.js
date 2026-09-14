@@ -107,3 +107,45 @@ if (!window.calculatorListenerAttached) {
     });
     window.calculatorListenerAttached = true;
 }
+
+function initCalculatorSteps() {
+    const calculatorStep = document.getElementById('calculator-step');
+    const detailsStep = document.getElementById('details-step');
+    const continueBtn = document.getElementById('continue-to-details-btn');
+    const backBtn = document.getElementById('back-to-calculator-btn');
+    const continueError = document.getElementById('continue-error');
+    const totalDisplay = document.getElementById('total-price-display');
+
+    if (!calculatorStep || !detailsStep || !continueBtn) return;
+
+    continueBtn.onclick = function() {
+        const total = totalDisplay ? parseFloat(totalDisplay.innerText) || 0 : 0;
+
+        if (total <= 0) {
+            if (continueError) continueError.classList.remove('hidden');
+            return;
+        }
+
+        if (continueError) continueError.classList.add('hidden');
+        calculatorStep.classList.add('hidden');
+        detailsStep.classList.remove('hidden');
+        detailsStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    if (backBtn) {
+        backBtn.onclick = function() {
+            detailsStep.classList.add('hidden');
+            calculatorStep.classList.remove('hidden');
+            calculatorStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+    }
+}
+
+initCalculatorSteps();
+
+if (!window.calculatorStepsListenerAttached) {
+    document.body.addEventListener('htmx:load', function() {
+        initCalculatorSteps();
+    });
+    window.calculatorStepsListenerAttached = true;
+}
