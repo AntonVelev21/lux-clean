@@ -110,9 +110,18 @@
                             <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-1 ml-1">
                                 {{ field.label }}
                             </label>
-                            <div class="[&>input]:w-full [&>input]:bg-slate-50 [&>input]:border [&>input]:border-slate-200 [&>input]:rounded-xl [&>input]:px-4 [&>input]:py-3 [&>input]:text-slate-700 [&>input]:focus:border-[#00AEEF] [&>input]:focus:ring-1 [&>input]:focus:ring-[#00AEEF] [&>input]:transition-colors [&>textarea]:w-full [&>textarea]:bg-slate-50 [&>textarea]:border [&>textarea]:border-slate-200 [&>textarea]:rounded-xl [&>textarea]:px-4 [&>textarea]:py-3 [&>textarea]:focus:border-[#00AEEF] [&>textarea]:focus:ring-1 [&>textarea]:focus:ring-[#00AEEF] [&>select]:w-full [&>select]:bg-slate-50 [&>select]:border [&>select]:border-slate-200 [&>select]:rounded-xl [&>select]:px-4 [&>select]:py-3 [&>select]:focus:border-[#00AEEF] [&>select]:focus:ring-1 [&>select]:focus:ring-[#00AEEF]">
-                               {{ field }}
-                            </div>
+                            {% if field.name == 'requested_date' %}
+                                <div class="hidden">{{ field }}</div>
+                                <button type="button" id="open-calendar-btn" onclick="openCalendarModal()"
+                                        class="w-full flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-[#00AEEF] focus:border-[#00AEEF] focus:ring-1 focus:ring-[#00AEEF] transition-colors">
+                                    <span id="selected-datetime-display" class="text-slate-400">Изберете дата и час</span>
+                                    <svg class="w-5 h-5 text-[#00AEEF] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </button>
+                            {% else %}
+                                <div class="[&>input]:w-full [&>input]:bg-slate-50 [&>input]:border [&>input]:border-slate-200 [&>input]:rounded-xl [&>input]:px-4 [&>input]:py-3 [&>input]:text-slate-700 [&>input]:focus:border-[#00AEEF] [&>input]:focus:ring-1 [&>input]:focus:ring-[#00AEEF] [&>input]:transition-colors [&>textarea]:w-full [&>textarea]:bg-slate-50 [&>textarea]:border [&>textarea]:border-slate-200 [&>textarea]:rounded-xl [&>textarea]:px-4 [&>textarea]:py-3 [&>textarea]:focus:border-[#00AEEF] [&>textarea]:focus:ring-1 [&>textarea]:focus:ring-[#00AEEF] [&>select]:w-full [&>select]:bg-slate-50 [&>select]:border [&>select]:border-slate-200 [&>select]:rounded-xl [&>select]:px-4 [&>select]:py-3 [&>select]:focus:border-[#00AEEF] [&>select]:focus:ring-1 [&>select]:focus:ring-[#00AEEF]">
+                                   {{ field }}
+                                </div>
+                            {% endif %}
                             {% if field.errors %}
                                 <p class="text-red-500 text-xs mt-1 font-semibold ml-1">{{ field.errors.0 }}</p>
                             {% endif %}
@@ -136,10 +145,13 @@
 
             </div>
         </form>
+
+        {% include 'common/calendar.html' %}
     </div>
 </section>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/calculator.js' %}"></script>
+<script src="{% static 'js/calendar-picker.js' %}"></script>
 {% endblock %}

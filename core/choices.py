@@ -11,3 +11,4 @@ class StatusChoices(models.TextChoices):
     IN_PROCESS = 'in_process', 'In process'
     FINISHED = 'finished', 'Finished'
     DENIED = 'denied', 'Denied'
+

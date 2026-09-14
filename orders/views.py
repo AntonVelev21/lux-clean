@@ -1,9 +1,11 @@
+from datetime import timedelta
+
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from orders.forms import OrderCreateForm
-from orders.models import Order, OrderItem
+from orders.models import Order, OrderItem, ReservedHours
 from services.models import Service, ServiceVariant
 
 
@@ -71,10 +73,41 @@ class CreateOrderView(CreateView):
             self.object.total_execution_time_in_minutes = calculated_total_execution_time
             self.object.save(update_fields=['total_price', 'total_execution_time_in_minutes'])
 
+            end_hour = self.object.requested_date + timedelta(hours=calculated_total_execution_time / 60)
+            ReservedHours.objects.create(
+                start_hour=self.object.requested_date,
+                end_hour=end_hour
+            )
+
         return HttpResponseRedirect(self.get_success_url())
 
 
 
+class CalendarView(ListView):
+    template_name = 'common/calendar.html'
+    model = ReservedHours
 
-def get_available_days_for_order(request: HttpRequest) -> HttpResponse:
-    ...
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(object_list=self.get_queryset(), **kwargs)
+        requested_date = self.request.GET.get('selected_date')
+        reserved_hours = ReservedHours.objects.filter(start_hour__date=requested_date)
+        day_hours_slots = {
+            10: True,
+            11.30: True,
+            13: True,
+            14.30: True,
+            16: True,
+            17.30: True
+
+        }
+
+        for time_slot in reserved_hours:
+            day_hours_slots[time_slot.start_hour.hour] = False
+            for hour in day_hours_slots:
+                if hour <= time_slot.end_hour.hour:
+                    day_hours_slots[hour] = False
+
+        context['day_hours_slots'] = day_hours_slots
+        return context
+
+

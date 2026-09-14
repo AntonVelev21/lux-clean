@@ -15,3 +15,8 @@ class OrderCreateForm(ModelForm):
             'city': 'Изберете град',
             'address': 'Вашият адрес'
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        date_time_field = self.fields['requested_date']
+        date_time_field.widget.input_type = 'datetime-local'

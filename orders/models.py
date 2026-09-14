@@ -28,6 +28,7 @@ class Order(models.Model):
         return f"Поръчка #{self.id} от {self.full_name}"
 
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey('Order', related_name='items', on_delete=models.CASCADE)
     service = models.ForeignKey('services.ServiceVariant', related_name='items', on_delete=models.PROTECT)
@@ -35,3 +36,9 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.service.name} (към Поръчка #{self.order.id})"
+
+
+
+class ReservedHours(models.Model):
+    start_hour = models.DateTimeField()
+    end_hour = models.DateTimeField()

@@ -1,0 +1,57 @@
+{% load order_extras %}
+
+<div id="calendar-modal-backdrop" class="hidden fixed inset-0 z-50 items-center justify-center bg-slate-900/60 p-4">
+    <div id="calendar-modal-panel" class="w-full max-w-md max-h-[90vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+        <div class="flex items-center justify-between p-6 bg-[#0F1A2E] border-b-4 border-[#00AEEF]">
+            <h3 class="text-lg font-bold text-white">Изберете дата и час</h3>
+            <button type="button" onclick="closeCalendarModal()" class="text-slate-300 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="p-6 space-y-6 overflow-y-auto">
+            <div>
+                <label for="calendar-date-input" class="block text-sm font-semibold text-slate-600 mb-2 ml-1">Дата</label>
+                <input type="date" id="calendar-date-input" name="selected_date"
+                       min="{% now 'Y-m-d' %}"
+                       hx-get="{% url 'orders:calendar' %}"
+                       hx-trigger="input changed delay:150ms, change"
+                       hx-target="#calendar-hours-slots"
+                       hx-select="#calendar-hours-slots"
+                       hx-swap="outerHTML"
+                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 focus:border-[#00AEEF] focus:ring-1 focus:ring-[#00AEEF] transition-colors">
+            </div>
+
+            <div>
+                <p class="text-sm font-semibold text-slate-600 mb-2 ml-1">Свободни часове</p>
+                <div id="calendar-hours-slots" class="grid grid-cols-2 gap-3">
+                    {% if day_hours_slots %}
+                        {% for hour, is_available in day_hours_slots.items %}
+                        <button type="button"
+                                data-time="{{ hour|format_hour }}"
+                                onclick="selectCalendarHour(this)"
+                                {% if not is_available %}disabled{% endif %}
+                                class="hour-slot-btn px-4 py-3 rounded-xl border font-semibold text-sm transition-colors
+                                    {% if is_available %}border-slate-200 text-slate-700 hover:border-[#00AEEF] hover:bg-sky-50{% else %}border-slate-100 text-slate-300 bg-slate-50 cursor-not-allowed line-through{% endif %}">
+                            {{ hour|format_hour }}
+                        </button>
+                        {% endfor %}
+                    {% else %}
+                        <p class="col-span-2 text-slate-400 italic text-sm">Изберете дата, за да видите свободните часове.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
+            <button type="button" onclick="closeCalendarModal()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 font-semibold hover:bg-slate-100 transition-colors">
+                Отказ
+            </button>
+            <button type="button" id="calendar-confirm-btn" disabled onclick="confirmCalendarSelection()" class="px-5 py-2.5 rounded-xl bg-[#00AEEF] text-white font-bold hover:bg-[#0096cc] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#00AEEF]">
+                Потвърди
+            </button>
+        </div>
+
+    </div>
+</div>
