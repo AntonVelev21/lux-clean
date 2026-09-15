@@ -16,11 +16,13 @@ function initCalculator() {
     const plusBtns = document.querySelectorAll('.qty-btn.plus');
     const totalDisplay = document.getElementById('total-price-display');
     const servicesContainer = document.getElementById('selected-services-container');
+    const originalTotalDisplay = document.getElementById('original-price-display'); // Добавено за задрасканата цена
 
     function calculateTotal() {
         if (!totalDisplay) return;
 
-        let total = 0;
+        let originalTotal = 0;
+        let finalTotal = 0;
         let selectedServicesHTML = '';
 
         quantityInputs.forEach(input => {
@@ -30,7 +32,7 @@ function initCalculator() {
 
             if (qty > 0) {
                 const lineTotal = qty * price;
-                total += lineTotal;
+                originalTotal += lineTotal;
 
                 selectedServicesHTML += `
                     <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-sm transition-all gap-3">
@@ -44,10 +46,35 @@ function initCalculator() {
             }
         });
 
-        totalDisplay.innerText = total.toFixed(2);
+        finalTotal = originalTotal;
+
+        if (originalTotal >= 200) {
+            finalTotal = originalTotal - 10;
+
+            selectedServicesHTML += `
+                <div class="flex justify-between items-center bg-green-50 p-3 rounded-xl border border-green-200 shadow-sm transition-all gap-3 mt-2">
+                    <div class="flex-1 min-w-0">
+                        <h5 class="text-green-800 font-bold text-sm truncate" title="Отстъпка">Отстъпка</h5>
+                        <p class="text-green-600 text-xs mt-0.5">За поръчка над 200 €</p>
+                    </div>
+                    <span class="text-green-600 font-black text-sm whitespace-nowrap flex-shrink-0">-10.00 €</span>
+                </div>
+            `;
+
+            if (originalTotalDisplay) {
+                originalTotalDisplay.innerText = originalTotal.toFixed(2) + ' €';
+                originalTotalDisplay.classList.remove('hidden');
+            }
+        } else {
+            if (originalTotalDisplay) {
+                originalTotalDisplay.classList.add('hidden');
+            }
+        }
+
+        totalDisplay.innerText = finalTotal.toFixed(2);
 
         if (servicesContainer) {
-            if (total > 0) {
+            if (originalTotal > 0) {
                 servicesContainer.innerHTML = selectedServicesHTML;
             } else {
                 servicesContainer.innerHTML = `

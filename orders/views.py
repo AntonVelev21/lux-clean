@@ -69,12 +69,16 @@ class CreateOrderView(CreateView):
                 form.add_error(None, "Моля, изберете поне една услуга от калкулатора.")
                 return self.form_invalid(form)
 
+            if calculated_real_total_price >= 200:
+                calculated_real_total_price -= 10
+
             self.object.total_price = calculated_real_total_price
             self.object.total_execution_time_in_minutes = calculated_total_execution_time
             self.object.save(update_fields=['total_price', 'total_execution_time_in_minutes'])
 
             end_hour = self.object.requested_date + timedelta(hours=calculated_total_execution_time / 60)
             ReservedHours.objects.create(
+                order_id=self.object.id,
                 start_hour=self.object.requested_date,
                 end_hour=end_hour
             )

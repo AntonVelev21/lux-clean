@@ -5,20 +5,32 @@
 <link rel="stylesheet" href="{% static 'css/calculator.css' %}">
 {% endblock %}
 
-{% block title %}Направете запитване | CleanService{% endblock %}
+{% block title %}Направете поръчка | CleanService{% endblock %}
 
 {% block content %}
 <section class="relative bg-slate-900 overflow-hidden flex items-center justify-center pt-28 pb-48" style="background-image: url('{% static 'images/hero_section_orders_create.jpg' %}'); background-size: cover; background-position: center;">
 
-    <div class="absolute inset-0 bg-slate-900/70 z-0"></div>
+    <div class="absolute inset-0 bg-slate-950/80 z-0"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight drop-shadow-md">
-            Направете <span class="text-brand-blue">Запитване</span>
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-md">
+            Направете <span class="text-[#00AEEF]">вашата</span> поръчка
         </h1>
-        <p class="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto font-light drop-shadow-sm">
-            Изберете услугите чрез калкулатора и въведете вашите данни.
-        </p>
+
+        <div class="max-w-3xl mx-auto flex flex-col items-center gap-5">
+            <p class="text-lg md:text-xl text-slate-300 font-light drop-shadow-sm leading-relaxed">
+                Изберете категория, маркирайте желаните от вас услуги и бройка, след което завършете поръчката.
+            </p>
+
+            <div class="inline-flex items-center gap-2.5 bg-green-500/10 border border-green-500/30 px-5 py-2.5 rounded-full backdrop-blur-sm shadow-lg shadow-green-500/5">
+                <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                </svg>
+                <span class="text-sm md:text-base text-slate-200 font-medium">
+                    При поръчки над <strong class="text-white font-bold">200 €</strong> получавате <strong class="text-green-400 font-black tracking-wide">10 € ОТСТЪПКА</strong> от общата сума
+                </span>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -30,8 +42,12 @@
             {% csrf_token %}
 
             <div id="calculator-step" class="w-full bg-[#0F1A2E] p-8 md:p-10 border-b-4 border-[#00AEEF] {% if form.errors and not form.non_field_errors %}hidden{% endif %}">
-                <h2 class="text-2xl font-bold text-white mb-2">Изберете услуги</h2>
-                <p class="text-slate-400 mb-8 border-b border-slate-700/50 pb-6">Кликнете върху категория, за да разгънете възможните варианти.</p>
+
+                <!-- ПРОМЯНА: Върнахме само заглавието и описанието -->
+                <div class="border-b border-slate-700/50 pb-6 mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-2">Изберете услуги</h2>
+                    <p class="text-slate-400">Кликнете върху категория, за да разгънете възможните варианти.</p>
+                </div>
 
                 {% if form.non_field_errors %}
                 <div class="bg-red-500/10 border-l-4 border-red-500 p-4 mb-8 rounded-md">
@@ -102,7 +118,10 @@
 
                             <div class="flex justify-between items-center border-t border-slate-700 pt-4 mb-6">
                                 <span class="text-sm font-bold text-slate-400 uppercase tracking-wider">Обща цена:</span>
-                                <span class="text-2xl font-black text-[#00AEEF]"><span id="total-price-display">0.00</span>€</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="original-price-display" class="hidden text-slate-500 line-through text-lg font-bold"></span>
+                                    <span class="text-2xl font-black text-[#00AEEF]"><span id="total-price-display">0.00</span>€</span>
+                                </div>
                             </div>
 
                             <button type="button" id="continue-to-details-btn" class="w-full bg-[#FF7300] hover:bg-[#e66a00] text-white font-black py-3.5 rounded-xl transition duration-300 shadow-lg shadow-[#FF7300]/30 transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group">

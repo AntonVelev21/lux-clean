@@ -40,5 +40,6 @@ class OrderItem(models.Model):
 
 
 class ReservedHours(models.Model):
+    order = models.OneToOneField('Order', related_name='reserved_hours', on_delete=models.CASCADE)
     start_hour = models.DateTimeField()
     end_hour = models.DateTimeField()

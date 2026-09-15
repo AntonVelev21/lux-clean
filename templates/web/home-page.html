@@ -20,10 +20,19 @@
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
                 Върнете живота на вашата <span class="text-brand-blue">мека мебел</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-light">
+            <p class="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed font-light">
                 Премахваме упорити петна, прах и акари директно във вашия дом. Използваме 100% безопасни и екологични препарати.
             </p>
-            
+
+            <div class="inline-flex items-center gap-2.5 bg-green-500/15 border border-green-500/30 px-5 py-2.5 rounded-full backdrop-blur-md shadow-lg shadow-green-500/5 mb-10 hover:bg-green-500/20 transition-colors">
+                <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                </svg>
+                <span class="text-sm md:text-base text-slate-200 font-medium">
+                    При поръчки над <strong class="text-white font-bold">200 €</strong> получавате <strong class="text-green-400 font-black tracking-wide uppercase">10 € Отстъпка</strong> от общата сума
+                </span>
+            </div>
+
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
                     Изчисли цена веднага
@@ -115,7 +124,7 @@
                 <p class="text-lg text-slate-600 mb-8 leading-relaxed">
                     Домакинските прахосмукачки и препарати почистват само повърхността. Нашата технология за екстракция с гореща вода (спрей-екстракция) извлича мръсотията, прахта и акарите от дълбочината на тъканите.
                 </p>
-                
+
                 <ul class="space-y-5 mb-10">
                     <li class="flex items-start">
                         <div class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center mt-1">
@@ -144,11 +153,19 @@
 <section class="py-20 bg-brand-electric">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Готови ли сте за безупречна чистота?</h2>
-        <p class="text-xl text-cyan-50 mb-10">Направете резервация за по-малко от 2 минути и запазете своя час.</p>
-        <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-10 py-4 bg-white text-brand-electric rounded-full font-bold text-lg hover:bg-slate-50 hover:shadow-xl transition-all transform hover:-translate-y-1">
-            Към онлайн калкулатора
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-        </a>
+        <p class="text-xl text-cyan-50 mb-5">Направете резервация за по-малко от 2 минути и запазете своя час.</p>
+
+        <div class="inline-flex items-center justify-center gap-2 bg-slate-900/90 text-white px-5 py-2 rounded-full mb-10 border border-white/20 shadow-sm backdrop-blur-sm">
+            <svg class="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-sm font-medium">Специално предложение: <strong class="text-green-300">10 € отстъпка</strong> за поръчки над 200 €</span>
+        </div>
+
+        <div>
+            <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-10 py-4 bg-white text-brand-electric rounded-full font-bold text-lg hover:bg-slate-50 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                Към онлайн калкулатора
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}
