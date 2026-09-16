@@ -29,7 +29,10 @@ class ClientPhoneValidator:
             raise ValidationError(self.__message)
 
 
-
+"""
+Removed from the model for now.
+Validation for requested date is implemented in forms.py with clean_requested_date method.
+"""
 @deconstructible
 class PositiveDateValidator:
     def __init__(self, message=None):

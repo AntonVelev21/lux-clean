@@ -13,9 +13,7 @@ class Order(models.Model):
     email = models.EmailField(blank=True)
     city = models.CharField(max_length=30, choices=CityChoices.choices)
     address = models.TextField()
-    requested_date = models.DateTimeField(validators=[
-        PositiveDateValidator()
-    ])
+    requested_date = models.DateTimeField()
     total_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[
         MinValueValidator(0.00, 'The total order price cannot be negative.')
     ])
