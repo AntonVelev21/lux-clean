@@ -30,3 +30,5 @@ class OrderCreateForm(ModelForm):
         now = timezone.now()
         if self.cleaned_data.get('requested_date') < now:
             raise ValidationError("You can not request a date in the past.")
+
+        return self.cleaned_data.get('requested_date')

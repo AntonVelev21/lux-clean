@@ -4,6 +4,8 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
+
+from core.emails.order_confirmation_email import send_order_confirmation_email
 from orders.forms import OrderCreateForm
 from orders.models import Order, OrderItem, ReservedHours
 from services.models import Service, ServiceVariant
@@ -83,6 +85,7 @@ class CreateOrderView(CreateView):
                 end_hour=end_hour
             )
 
+            send_order_confirmation_email(self.object.requested_date, self.object.email, self.object.items)
         return HttpResponseRedirect(self.get_success_url())
 
 

@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-PROJECT_APPS = ['web', 'services', 'orders', 'users', 'core']
+PROJECT_APPS = ['web', 'services', 'orders', 'users', 'core', 'anymail']
 
 
 INSTALLED_APPS = [
@@ -141,3 +141,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+
+ANYMAIL = {
+
+    "BREVO_API_KEY": os.getenv('BREVO_API_KEY'),
+}
+
+BREVO_API_URL = os.getenv('BREVO_API_URL')
+
+
+DEFAULT_FROM_EMAIL = "antonvelev03@gmail.com"

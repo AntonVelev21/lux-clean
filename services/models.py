@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from core.validators import ServiceImageResolutionValidator
+from core.validators.service_image_resolution_validator import ServiceImageResolutionValidator
 
 
 class Service(models.Model):
