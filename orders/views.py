@@ -85,7 +85,7 @@ class CreateOrderView(CreateView):
                 end_hour=end_hour
             )
 
-            send_order_confirmation_email(self.object.requested_date, self.object.email, self.object.items)
+            send_order_confirmation_email(requested_date=self.object.requested_date, user_email=self.object.email, order_items=self.object.items.all(), total_price=calculated_real_total_price)
         return HttpResponseRedirect(self.get_success_url())
 
 
