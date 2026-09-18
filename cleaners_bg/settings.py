@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 
 import os, dotenv
+from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,6 +37,9 @@ PROJECT_APPS = ['web', 'services', 'orders', 'users', 'core', 'anymail']
 
 
 INSTALLED_APPS = [
+    'unfold',
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,3 +158,99 @@ BREVO_API_URL = os.getenv('BREVO_API_URL')
 
 
 DEFAULT_FROM_EMAIL = "antonvelev03@gmail.com"
+
+
+# Django Unfold admin theme
+# https://unfoldadmin.com/docs/configuration/settings/
+
+UNFOLD = {
+    "SITE_TITLE": "Cleaners BG",
+    "SITE_HEADER": "Cleaners BG",
+    "SITE_SUBHEADER": "Business control center",
+    "SITE_SYMBOL": "cleaning_services",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_BACK_BUTTON": True,
+    "COLORS": {
+        # Teal brand palette (fresh/clean feel), used across both light and dark mode.
+        "primary": {
+            "50": "oklch(98.4% .014 180.72)",
+            "100": "oklch(95.3% .051 180.801)",
+            "200": "oklch(91% .096 180.426)",
+            "300": "oklch(85.5% .138 181.071)",
+            "400": "oklch(77.7% .152 181.912)",
+            "500": "oklch(70.4% .14 182.503)",
+            "600": "oklch(60% .118 184.704)",
+            "700": "oklch(51.1% .096 186.391)",
+            "800": "oklch(43.7% .078 188.216)",
+            "900": "oklch(38.6% .063 188.416)",
+            "950": "oklch(27.7% .046 192.524)",
+        },
+    },
+    "COMMAND": {
+        "search_models": True,
+        "show_history": True,
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "command_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Overview",
+                "items": [
+                    {
+                        "title": "Dashboard",
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                ],
+            },
+            {
+                "title": "Business",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Orders",
+                        "icon": "shopping_cart",
+                        "link": reverse_lazy("admin:orders_order_changelist"),
+                        "badge": "core.admin_dashboard.new_orders_badge",
+                    },
+                    {
+                        "title": "Reserved hours",
+                        "icon": "event_available",
+                        "link": reverse_lazy("admin:orders_reservedhours_changelist"),
+                    },
+                    {
+                        "title": "Services",
+                        "icon": "cleaning_services",
+                        "link": reverse_lazy("admin:services_service_changelist"),
+                    },
+                    {
+                        "title": "Service variants",
+                        "icon": "sell",
+                        "link": reverse_lazy("admin:services_servicevariant_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Administration",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Users",
+                        "icon": "group",
+                        "link": reverse_lazy("admin:users_user_changelist"),
+                    },
+                    {
+                        "title": "Groups",
+                        "icon": "shield_person",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
+    "DASHBOARD_CALLBACK": "core.admin_dashboard.dashboard_callback",
+}
+

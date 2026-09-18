@@ -1,0 +1,107 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n unfold %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-6">
+
+    {% if kpi_cards %}
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+        {% for kpi in kpi_cards %}
+        {% component "unfold/components/card.html" with icon=kpi.icon %}
+            <div class="text-font-subtle-light text-sm dark:text-font-subtle-dark">{{ kpi.title }}</div>
+            <div class="flex items-baseline gap-2 mt-1">
+                <div class="font-semibold text-2xl text-font-important-light dark:text-font-important-dark">{{ kpi.value }}</div>
+            </div>
+            {% if kpi.delta %}
+                <div class="flex items-center gap-1 mt-1 text-xs">
+                    <span class="font-semibold {% if kpi.delta.positive %}text-green-600 dark:text-green-500{% else %}text-red-600 dark:text-red-500{% endif %}">
+                        {% if kpi.delta.positive %}&#9650;{% else %}&#9660;{% endif %} {{ kpi.delta.value }}
+                    </span>
+                    <span class="text-font-subtle-light dark:text-font-subtle-dark">vs previous {{ trend_window_days }} days</span>
+                </div>
+            {% endif %}
+        {% endcomponent %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="grid gap-6 grid-cols-1 xl:grid-cols-3">
+        <div class="xl:col-span-2">
+            {% component "unfold/components/card.html" with title="Revenue — last 14 days" %}
+                {% component "unfold/components/chart/line.html" with data=revenue_chart height="270" %}{% endcomponent %}
+            {% endcomponent %}
+        </div>
+        <div>
+            {% component "unfold/components/card.html" with title="Orders by status" %}
+                {% component "unfold/components/chart/bar.html" with data=status_chart height="270" %}{% endcomponent %}
+            {% endcomponent %}
+        </div>
+    </div>
+
+    <div class="grid gap-6 grid-cols-1 xl:grid-cols-3">
+        <div class="xl:col-span-2">
+            {% component "unfold/components/card.html" with title="Recent orders" %}
+                <div class="overflow-x-auto -mx-6 -mb-6">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-base-200 text-left text-font-subtle-light dark:border-base-800 dark:text-font-subtle-dark">
+                                <th class="px-6 py-2 font-medium">Order</th>
+                                <th class="px-6 py-2 font-medium">Client</th>
+                                <th class="px-6 py-2 font-medium">City</th>
+                                <th class="px-6 py-2 font-medium">Status</th>
+                                <th class="px-6 py-2 font-medium text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders %}
+                            <tr class="border-b border-base-200 last:border-b-0 dark:border-base-800">
+                                <td class="px-6 py-2.5">
+                                    <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="{% url 'admin:orders_order_change' order.pk %}">#{{ order.pk }}</a>
+                                </td>
+                                <td class="px-6 py-2.5">{{ order.full_name }}</td>
+                                <td class="px-6 py-2.5">{{ order.get_city_display }}</td>
+                                <td class="px-6 py-2.5">{{ order.get_status_display }}</td>
+                                <td class="px-6 py-2.5 text-right">{{ order.total_price }} BGN</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="px-6 py-4 text-font-subtle-light dark:text-font-subtle-dark" colspan="5">No orders yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endcomponent %}
+        </div>
+        <div>
+            {% component "unfold/components/card.html" with title="Top requested services" %}
+                <ul class="flex flex-col gap-3">
+                    {% for service in top_services %}
+                    <li class="flex items-center justify-between">
+                        <span>{{ service.service__name }}</span>
+                        <span class="font-semibold">{{ service.total_qty }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="text-font-subtle-light dark:text-font-subtle-dark">No data yet.</li>
+                    {% endfor %}
+                </ul>
+            {% endcomponent %}
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row lg:gap-8">
+        <div class="grow">
+            {% include "unfold/helpers/app_list_default.html" %}
+        </div>
+
+        {% include "unfold/helpers/history.html" %}
+    </div>
+</div>
+{% endblock %}
