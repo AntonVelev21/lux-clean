@@ -94,7 +94,7 @@ def dashboard_callback(request: HttpRequest, context: dict[str, Any]) -> dict[st
         "labels": labels,
         "datasets": [
             {
-                "label": "Revenue (BGN)",
+                "label": "Revenue (€)",
                 "data": revenue_series,
                 "borderColor": "var(--color-primary-500)",
                 "backgroundColor": "var(--color-primary-500)",
@@ -133,7 +133,7 @@ def dashboard_callback(request: HttpRequest, context: dict[str, Any]) -> dict[st
         "kpi_cards": [
             {
                 "title": "Total revenue",
-                "value": f"{total_revenue:,.2f} BGN",
+                "value": f"{total_revenue:,.2f} €",
                 "icon": "payments",
                 "delta": _format_delta(current_period_revenue, previous_period_revenue),
             },
@@ -151,7 +151,7 @@ def dashboard_callback(request: HttpRequest, context: dict[str, Any]) -> dict[st
             },
             {
                 "title": "Average order value",
-                "value": f"{avg_order_value:,.2f} BGN",
+                "value": f"{avg_order_value:,.2f} €",
                 "icon": "point_of_sale",
                 "delta": None,
             },

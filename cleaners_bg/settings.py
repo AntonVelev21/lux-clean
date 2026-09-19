@@ -172,7 +172,6 @@ UNFOLD = {
     "SHOW_VIEW_ON_SITE": True,
     "SHOW_BACK_BUTTON": True,
     "COLORS": {
-        # Teal brand palette (fresh/clean feel), used across both light and dark mode.
         "primary": {
             "50": "oklch(98.4% .014 180.72)",
             "100": "oklch(95.3% .051 180.801)",

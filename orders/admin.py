@@ -41,18 +41,19 @@ class OrderAdmin(ModelAdmin):
         "formatted_total_price",
         "created_at",
     ]
+
+    ordering = ['-requested_date']
+
     list_display_links = ["id", "full_name"]
 
     list_filter = [
         ("status", ChoicesDropdownFilter),
         ("city", ChoicesDropdownFilter),
-        ("requested_date", RangeDateFilter),
-        ("created_at", RangeDateFilter),
     ]
     list_filter_submit = True
     list_fullwidth = True
     search_fields = ["=id", "full_name", "phone_number", "email", "address"]
-    date_hierarchy = "created_at"
+    date_hierarchy = "requested_date"
     readonly_fields = ["created_at", "updated_at"]
     actions = ["mark_as_in_process", "mark_as_finished", "mark_as_denied"]
     inlines = [OrderItemInline, ReservedHoursInline]
@@ -76,7 +77,7 @@ class OrderAdmin(ModelAdmin):
 
     @display(description="Total price", ordering="total_price")
     def formatted_total_price(self, obj):
-        return format_html("{} BGN", obj.total_price)
+        return format_html("{} €", obj.total_price)
 
     @admin.action(description="Mark selected orders as in process")
     def mark_as_in_process(self, request, queryset):
@@ -101,5 +102,4 @@ class OrderItemAdmin(ModelAdmin):
 @admin.register(ReservedHours)
 class ReservedHoursAdmin(ModelAdmin):
     list_display = ["order", "start_hour", "end_hour"]
-    list_filter = [("start_hour", RangeDateFilter)]
     search_fields = ["=order__id", "order__full_name"]
