@@ -1,5 +1,5 @@
 from datetime import timedelta
-
+from decimal import Decimal
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -72,7 +72,7 @@ class CreateOrderView(CreateView):
                 return self.form_invalid(form)
 
             if calculated_real_total_price >= 200:
-                calculated_real_total_price -= calculated_real_total_price * 0.05
+                calculated_real_total_price -= calculated_real_total_price * Decimal(str(0.05))
 
             self.object.total_price = calculated_real_total_price
             self.object.total_execution_time_in_minutes = calculated_total_execution_time
