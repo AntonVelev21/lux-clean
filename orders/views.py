@@ -72,7 +72,7 @@ class CreateOrderView(CreateView):
                 return self.form_invalid(form)
 
             if calculated_real_total_price >= 200:
-                calculated_real_total_price -= 10
+                calculated_real_total_price -= calculated_real_total_price * 0.05
 
             self.object.total_price = calculated_real_total_price
             self.object.total_execution_time_in_minutes = calculated_total_execution_time

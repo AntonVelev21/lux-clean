@@ -49,7 +49,7 @@ function initCalculator() {
         finalTotal = originalTotal;
 
         if (originalTotal >= 200) {
-            finalTotal = originalTotal - 10;
+            finalTotal = originalTotal * 0.95;
 
             selectedServicesHTML += `
                 <div class="flex justify-between items-center bg-green-50 p-3 rounded-xl border border-green-200 shadow-sm transition-all gap-3 mt-2">
@@ -57,7 +57,7 @@ function initCalculator() {
                         <h5 class="text-green-800 font-bold text-sm truncate" title="Отстъпка">Отстъпка</h5>
                         <p class="text-green-600 text-xs mt-0.5">За поръчка над 200 €</p>
                     </div>
-                    <span class="text-green-600 font-black text-sm whitespace-nowrap flex-shrink-0">-10.00 €</span>
+                    <span class="text-green-600 font-black text-sm whitespace-nowrap flex-shrink-0">-5 % €</span>
                 </div>
             `;
 
