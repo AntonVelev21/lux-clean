@@ -220,15 +220,24 @@ function buildPastSlotChecker() {
     };
 }
 
-document.body.addEventListener('htmx:afterSwap', function (evt) {
-    if (!evt.target || evt.target.id !== 'calendar-hours-slots') return;
-    resetCalendarHourSelection();
-    initCalendarHourPicker();
-});
+// document.body survives every hx-boost swap (only its children are
+// replaced), and this script re-runs on every such swap since it lives
+// inside the swapped body. Guard registration on document.body so repeated
+// visits to this page don't pile up duplicate listeners.
+if (document.body.dataset.calendarSwapBound !== 'true') {
+    document.body.dataset.calendarSwapBound = 'true';
 
-document.addEventListener('DOMContentLoaded', function () {
-    initCalendarHourPicker();
-});
+    document.body.addEventListener('htmx:afterSwap', function (evt) {
+        if (!evt.target || evt.target.id !== 'calendar-hours-slots') return;
+        resetCalendarHourSelection();
+        initCalendarHourPicker();
+    });
+}
+
+// Called directly rather than on DOMContentLoaded: this script re-runs on
+// every hx-boost swap, and by the time it executes the markup above it has
+// already been parsed/inserted. No-op if the picker markup isn't present yet.
+initCalendarHourPicker();
 
 function confirmCalendarSelection() {
     const dateInput = document.getElementById('calendar-date-input');

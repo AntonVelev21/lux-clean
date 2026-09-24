@@ -90,7 +90,7 @@
 
                                             <input type="number" name="variant_{{ variant.id }}"
                                                    value="{% if variant.id == requested_variant.id %}1{% else %}0{% endif %}"
-                                                   min="0" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
+                                                   min="0" max="99" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
                                                    autocomplete="off"
                                                    class="variant-input w-8 text-center bg-transparent border-none focus:ring-0 text-white font-bold p-0 text-sm">
 

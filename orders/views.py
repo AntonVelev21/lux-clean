@@ -2,8 +2,8 @@ from datetime import timedelta
 from decimal import Decimal
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, ListView, TemplateView
 
 from core.emails.order_confirmation_email import send_order_confirmation_email
 from orders.forms import OrderCreateForm
@@ -15,7 +15,7 @@ class CreateOrderView(CreateView):
     model = Order
     form_class = OrderCreateForm
     template_name = 'orders/create.html'
-    success_url = reverse_lazy('home-page')
+    success_url = reverse_lazy('orders:confirmation')
 
 
     def get_context_data(self, **kwargs):
@@ -86,7 +86,29 @@ class CreateOrderView(CreateView):
             )
 
             send_order_confirmation_email(requested_date=self.object.requested_date, user_email=self.object.email, order_items=self.object.items.all(), total_price=calculated_real_total_price)
+
+            self.request.session['order_confirmation'] = {
+                'full_name': self.object.full_name,
+                'email': self.object.email,
+                'phone_number': self.object.phone_number,
+                'formatted_date': self.object.requested_date.strftime('%d.%m.%Y'),
+                'formatted_time': self.object.requested_date.strftime('%H:%M'),
+                'total_price': f'{calculated_real_total_price:.2f}',
+            }
+
         return HttpResponseRedirect(self.get_success_url())
+
+
+
+class OrderConfirmationView(TemplateView):
+    template_name = 'orders/confirmation.html'
+
+    def get(self, request, *args, **kwargs):
+        confirmation = request.session.pop('order_confirmation', None)
+        if not confirmation:
+            return HttpResponseRedirect(reverse('home-page'))
+
+        return self.render_to_response({'order': confirmation})
 
 
 
