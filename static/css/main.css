@@ -1,17 +1,14 @@
-/* static/css/main.css */
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    /* Базов цвят на текста и много фин светъл фон за цялото приложение */
-    background-color: #f8fafc; /* Tailwind: slate-50 */
-    color: #334155; /* Tailwind: slate-700 */
+    background-color: #f8fafc;
+    color: #334155;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Скриване на стрелките (spinners) при input type="number" за по-изчистен вид */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;

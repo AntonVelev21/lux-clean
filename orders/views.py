@@ -100,12 +100,19 @@ class CalendarView(ListView):
         reserved_hours = ReservedHours.objects.filter(start_hour__date=requested_date)
         day_hours_slots = {
             10: True,
+            10.30: True,
             11: True,
+            11.30: True,
             12: True,
+            12.30: True,
             13: True,
+            13.30: True,
             14: True,
+            14.30: True,
             15: True,
-            16: True
+            15.30: True,
+            16: True,
+            16.30: True
 
         }
 

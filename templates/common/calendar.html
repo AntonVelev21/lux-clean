@@ -1,4 +1,6 @@
 {% load order_extras %}
+{% load static %}
+{ <link rel="stylesheet" href="{% static 'css/calendar.css' %}"> }
 
 <div id="calendar-modal-backdrop" class="hidden fixed inset-0 z-50 items-center justify-center bg-slate-900/60 p-4">
     <div id="calendar-modal-panel" class="w-full max-w-md max-h-[90vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden">
@@ -24,21 +26,36 @@
             </div>
 
             <div>
-                <p class="text-sm font-semibold text-slate-600 mb-2 ml-1">Свободни часове</p>
-                <div id="calendar-hours-slots" class="grid grid-cols-2 gap-3">
+                <p class="text-sm font-semibold text-slate-600 mb-2 ml-1">Изберете час</p>
+
+                <div id="calendar-hours-slots">
                     {% if day_hours_slots %}
-                        {% for hour, is_available in day_hours_slots.items %}
-                        <button type="button"
-                                data-time="{{ hour|format_hour }}"
-                                onclick="selectCalendarHour(this)"
-                                {% if not is_available %}disabled{% endif %}
-                                class="hour-slot-btn px-4 py-3 rounded-xl border font-semibold text-sm transition-colors
-                                    {% if is_available %}border-slate-200 text-slate-700 hover:border-[#00AEEF] hover:bg-sky-50{% else %}border-slate-100 text-slate-300 bg-slate-50 cursor-not-allowed line-through{% endif %}">
-                            {{ hour|format_hour }}
-                        </button>
-                        {% endfor %}
+                        <script type="application/json" id="calendar-slots-data">
+                        [
+                            {% for hour, is_available in day_hours_slots.items %}
+                            {"time": "{{ hour|format_hour }}", "available": {{ is_available|yesno:"true,false" }}}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ]
+                        </script>
+
+                        <div class="calendar-picker">
+                            <div class="calendar-picker-frame">
+                                <div class="calendar-picker-highlight"></div>
+
+                                <div id="hour-picker-col" class="calendar-picker-col"></div>
+                                <div class="calendar-picker-colon">:</div>
+                                <div id="minute-picker-col" class="calendar-picker-col"></div>
+
+                                <div class="calendar-picker-fade calendar-picker-fade-top"></div>
+                                <div class="calendar-picker-fade calendar-picker-fade-bottom"></div>
+                            </div>
+                        </div>
+
+                        <p id="calendar-invalid-msg" class="hidden mt-3 text-center text-sm font-semibold text-rose-500">
+                            Този час не е свободен
+                        </p>
                     {% else %}
-                        <p class="col-span-2 text-slate-400 italic text-sm">Изберете дата, за да видите свободните часове.</p>
+                        <p class="text-slate-400 italic text-sm text-center">Изберете дата, за да видите свободните часове.</p>
                     {% endif %}
                 </div>
             </div>
