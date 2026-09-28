@@ -16,31 +16,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
     {% block extra_css %}{% endblock %}
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            blue: '#0ea5e9',
-                            orange: '#f97316',
-                            green: '#10b981',
-                            electric: '#06b6d4'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/head-support.js"></script>

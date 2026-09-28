@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@source "../../**/*.html";
+
+@theme {
+    --color-brand-blue: #0ea5e9;
+    --color-brand-orange: #f97316;
+    --color-brand-green: #10b981;
+    --color-brand-electric: #06b6d4;
+
+    --font-sans: Inter, sans-serif;
+}

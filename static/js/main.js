@@ -6,7 +6,6 @@ function initMobileMenu() {
         return;
     }
 
-    // Prevent duplicate listeners.
     if (btn.dataset.menuInitialized === 'true') {
         return;
     }
@@ -24,17 +23,10 @@ function initMobileMenu() {
 }
 
 
-// Runs at script-execution time: on the real page load this fires after the
-// DOM above it has parsed, and htmx re-runs this whole script on every
-// hx-boost swap (it lives inside the swapped body), so a direct call covers
-// both cases without depending on event timing.
 initMobileMenu();
 
 
 function initSpaNavigation() {
-    // document.body survives every hx-boost swap (only its children are
-    // replaced), so guard registration on it rather than on this script's
-    // re-execution, which would otherwise pile up duplicate listeners.
     if (document.body.dataset.spaNavInitialized === 'true') {
         return;
     }
@@ -60,8 +52,6 @@ function initSpaNavigation() {
             return;
         }
 
-        // The loading bar element itself gets replaced by the swap, so look
-        // up whichever instance is live right now instead of caching one.
         const bar = document.getElementById('page-loading-bar');
         if (!bar) {
             return;

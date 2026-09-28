@@ -16,3 +16,4 @@ db.sqlite3
 to_do's
 .claudeignore
 .claude
+node_modules
