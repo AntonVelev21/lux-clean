@@ -41,6 +41,7 @@ class CreateOrderView(CreateView):
             calculated_real_total_price = 0
             calculated_total_execution_time = 0
             has_valid_services = False
+            has_discount = False
 
             for key, value in self.request.POST.items():
                 if key.startswith('variant_'):
@@ -72,9 +73,16 @@ class CreateOrderView(CreateView):
                 return self.form_invalid(form)
 
             if calculated_real_total_price >= 200:
-                calculated_real_total_price -= calculated_real_total_price * Decimal(str(0.05))
+                price_after_discount = calculated_real_total_price * Decimal(str(0.95))
+                has_discount = True
 
-            self.object.total_price = calculated_real_total_price
+            if has_discount:
+                self.object.total_price = price_after_discount
+                total_price_text_for_confirmation_template = f'{price_after_discount:.2f}'
+            else:
+                self.object.total_price = calculated_real_total_price
+                total_price_text_for_confirmation_template = f'{calculated_real_total_price:.2f}'
+
             self.object.total_execution_time_in_minutes = calculated_total_execution_time
             self.object.save(update_fields=['total_price', 'total_execution_time_in_minutes'])
 
@@ -85,7 +93,7 @@ class CreateOrderView(CreateView):
                 end_hour=end_hour
             )
 
-            send_order_confirmation_email(requested_date=self.object.requested_date, user_email=self.object.email, order_items=self.object.items.all(), total_price=calculated_real_total_price)
+            send_order_confirmation_email(requested_date=self.object.requested_date, user_email=self.object.email, order_items=self.object.items.all(), total_price=calculated_real_total_price, has_discount=has_discount)
 
             self.request.session['order_confirmation'] = {
                 'full_name': self.object.full_name,
@@ -93,7 +101,9 @@ class CreateOrderView(CreateView):
                 'phone_number': self.object.phone_number,
                 'formatted_date': self.object.requested_date.strftime('%d.%m.%Y'),
                 'formatted_time': self.object.requested_date.strftime('%H:%M'),
-                'total_price': f'{calculated_real_total_price:.2f}',
+                'total_price': total_price_text_for_confirmation_template,
+                'has_discount': has_discount,
+                'old_price': f'{calculated_real_total_price:.2f}',
             }
 
         return HttpResponseRedirect(self.get_success_url())
@@ -107,7 +117,6 @@ class OrderConfirmationView(TemplateView):
         confirmation = request.session.pop('order_confirmation', None)
         if not confirmation:
             return HttpResponseRedirect(reverse('home-page'))
-
         return self.render_to_response({'order': confirmation})
 
 

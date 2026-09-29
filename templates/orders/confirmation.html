@@ -56,10 +56,20 @@
                         <dd class="text-sm font-bold text-slate-800">{{ order.formatted_date }} в {{ order.formatted_time }} ч.</dd>
                     </div>
 
+                {% if order.has_discount %}
+                    <div class="flex justify-between items-center py-3">
+                        <dt class="text-sm font-semibold text-slate-500">Обща цена</dt>
+                        <dd class="flex items-center gap-2 text-lg font-black text-[#00AEEF]">
+                            <span class="text-slate-500 line-through">{{ order.old_price }} €</span>
+                            <span>{{ order.total_price }} €</span>
+                        </dd>
+                    </div>
+                {% else %}
                     <div class="flex justify-between items-center py-3">
                         <dt class="text-sm font-semibold text-slate-500">Обща цена</dt>
                         <dd class="text-lg font-black text-[#00AEEF]">{{ order.total_price }} €</dd>
                     </div>
+                {% endif %}
                 </dl>
             </div>
 

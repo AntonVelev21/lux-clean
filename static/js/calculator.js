@@ -403,9 +403,4 @@ function initializeCalculatorPage() {
     initCalculatorSteps();
 }
 
-
-// Called directly rather than on DOMContentLoaded/htmx:load: this script
-// re-runs on every hx-boost swap (it lives inside the swapped body), and by
-// the time it executes the calculator markup above it in the document has
-// already been parsed/inserted, so the elements it needs already exist.
 initializeCalculatorPage();
