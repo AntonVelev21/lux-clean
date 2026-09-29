@@ -18,6 +18,28 @@ class OrderCreateForm(ModelForm):
             'requested_date': 'Вижте свободните дати и часове'
         }
 
+        error_messages = {
+            'full_name': {
+                'required': 'Моля, въведете Вашето име.',
+            },
+            'phone_number': {
+                'required': 'Моля, въведете телефонен номер за връзка.',
+            },
+            'email': {
+                'required': 'Моля, въведете Вашия имейл адрес.',
+                'invalid': 'Въведете валиден имейл адрес.',
+            },
+            'city': {
+                'required': 'Моля, изберете град от списъка.',
+            },
+            'address': {
+                'required': 'Моля, въведете Вашия адрес.',
+            },
+            'requested_date': {
+                'required': 'Моля, изберете дата и час.',
+            },
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,10 +47,14 @@ class OrderCreateForm(ModelForm):
         date_time_field.widget.input_type = 'datetime-local'
 
 
-
     def clean_requested_date(self):
-        now = timezone.now()
-        if self.cleaned_data.get('requested_date') < now:
-            raise ValidationError("You can not request a date in the past.")
+        requested_date = self.cleaned_data.get('requested_date')
+        if not requested_date:
+            return requested_date
 
-        return self.cleaned_data.get('requested_date')
+        now = timezone.now()
+        if requested_date < now:
+            raise ValidationError("Моля изберете бъдещи час и дата.")
+
+        return requested_date
+

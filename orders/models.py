@@ -11,7 +11,7 @@ class Order(models.Model):
     phone_number = models.CharField(max_length=20, validators=[
         ClientPhoneValidator()
     ])
-    email = models.EmailField(blank=True)
+    email = models.EmailField()
     city = models.CharField(max_length=30, choices=CityChoices.choices)
     address = models.TextField()
     requested_date = models.DateTimeField()

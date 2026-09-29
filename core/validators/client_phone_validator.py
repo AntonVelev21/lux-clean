@@ -16,7 +16,7 @@ class ClientPhoneValidator:
     @message.setter
     def message(self, value):
         if not value:
-            value = "Enter a valid phone number."
+            value = 'Моля, въведете валиден телефонен номер.'
         self.__message = value
 
 
