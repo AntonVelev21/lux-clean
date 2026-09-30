@@ -253,3 +253,8 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "core.admin_dashboard.dashboard_callback",
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://racemous-nila-derogatory.ngrok-free.dev',
+    'https://*.ngrok-free.dev',
+]
+
