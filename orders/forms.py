@@ -15,7 +15,7 @@ class OrderCreateForm(ModelForm):
             'email': 'Имейл',
             'city': 'Изберете град',
             'address': 'Вашият адрес',
-            'requested_date': 'Вижте свободните дати и часове'
+            'requested_date': 'Желаните от вас дата и час (ориентировъчен)'
         }
 
         error_messages = {

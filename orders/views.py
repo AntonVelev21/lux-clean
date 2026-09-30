@@ -17,6 +17,7 @@ class CreateOrderView(CreateView):
     template_name = 'orders/create.html'
     success_url = reverse_lazy('orders:confirmation')
 
+#Think about how can you cache the selected and check if there aren't any changes to skip the loop
 
     def _get_selected_variants(self):
         selected = {}
@@ -63,6 +64,7 @@ class CreateOrderView(CreateView):
         calculated_total_execution_time = 0
         has_discount = False
         selected_variants = self._get_selected_variants()
+        requested_date = form.cleaned_data['requested_date']
 
         if not selected_variants:
             form.add_error(None, "Моля, изберете поне една услуга от калкулатора.")
@@ -71,6 +73,13 @@ class CreateOrderView(CreateView):
         for variant, quantity in selected_variants.items():
             calculated_real_total_price += variant.price * quantity
             calculated_total_execution_time += variant.execution_time_in_minutes * quantity
+
+
+        end_hour = requested_date + timedelta(hours=calculated_total_execution_time / 60)
+
+        if end_hour.hour >= 18.30:
+            form.add_error(None, "Вашата поръчка ще надхвърли максималното ни работно време (до 18:30). Моля, изберете по-ранен час или по-малко услуги.")
+            return self.form_invalid(form)
 
         with transaction.atomic():
             self.object = form.save(commit=False)
@@ -95,7 +104,6 @@ class CreateOrderView(CreateView):
                     quantity=quantity
                 )
 
-            end_hour = self.object.requested_date + timedelta(hours=calculated_total_execution_time / 60)
             ReservedHours.objects.create(
                 order_id=self.object.id,
                 start_hour=self.object.requested_date,
