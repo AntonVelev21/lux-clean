@@ -9,10 +9,10 @@ def send_order_confirmation_email(requested_date, user_email, order_items, total
     formatted_time = requested_date.strftime("%H:%M")
     total_price_str = f"{total_price:.2f}"
     html_order_info = "<br>".join(
-        f"- {item.service}: {item.quantity} бр" for item in order_items
+        f"- {service}: {quantity} бр" for service, quantity in order_items
     )
     text_order_info = "\n".join(
-        f"- {item.service}: {item.quantity} бр" for item in order_items
+        f"- {service}: {quantity} бр" for service, quantity in order_items
     )
 
     if has_discount:

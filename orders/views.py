@@ -18,6 +18,27 @@ class CreateOrderView(CreateView):
     success_url = reverse_lazy('orders:confirmation')
 
 
+    def _get_selected_variants(self):
+        selected = {}
+
+        for key, value in self.request.POST.items():
+            if key.startswith('variant_'):
+                try:
+                    variant_id = key.split('_')[1]
+                    quantity = int(value)
+                except (ValueError, IndexError):
+                    continue
+
+                if quantity > 0:
+                    try:
+                        variant = ServiceVariant.objects.get(id=variant_id)
+                        selected[variant] = quantity
+
+                    except ServiceVariant.DoesNotExist:
+                        continue
+        return selected
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['services'] = Service.objects.prefetch_related('variants').all()
@@ -29,48 +50,31 @@ class CreateOrderView(CreateView):
         except ServiceVariant.DoesNotExist:
             context['requested_variant'] = None
 
+        if self.request.method == 'POST':
+            context['selected_variants'] = self._get_selected_variants()
+        else:
+            context['selected_variants'] = None
+
         return context
 
 
     def form_valid(self, form):
+        calculated_real_total_price = 0
+        calculated_total_execution_time = 0
+        has_discount = False
+        selected_variants = self._get_selected_variants()
+
+        if not selected_variants:
+            form.add_error(None, "Моля, изберете поне една услуга от калкулатора.")
+            return self.form_invalid(form)
+
+        for variant, quantity in selected_variants.items():
+            calculated_real_total_price += variant.price * quantity
+            calculated_total_execution_time += variant.execution_time_in_minutes * quantity
+
         with transaction.atomic():
             self.object = form.save(commit=False)
-            self.object.total_price = 0
-            self.object.total_execution_time_in_minutes = 0
-            self.object.save()
-            calculated_real_total_price = 0
-            calculated_total_execution_time = 0
-            has_valid_services = False
-            has_discount = False
-
-            for key, value in self.request.POST.items():
-                if key.startswith('variant_'):
-                    try:
-                        variant_id = key.split('_')[1]
-                        quantity = int(value)
-                    except (ValueError, IndexError):
-                        continue
-
-                    if quantity > 0:
-                        try:
-                            variant = ServiceVariant.objects.get(id=variant_id)
-                            OrderItem.objects.create(
-                                order=self.object,
-                                service=variant,
-                                quantity=quantity
-                            )
-                            calculated_real_total_price += quantity * variant.price
-                            calculated_total_execution_time += quantity * variant.execution_time_in_minutes
-                            has_valid_services = True
-
-                        except ServiceVariant.DoesNotExist:
-                            continue
-
-            if not has_valid_services:
-                transaction.set_rollback(True)
-                form.instance.pk = None
-                form.add_error(None, "Моля, изберете поне една услуга от калкулатора.")
-                return self.form_invalid(form)
+            self.object.total_execution_time_in_minutes = calculated_total_execution_time
 
             if calculated_real_total_price >= 200:
                 price_after_discount = calculated_real_total_price * Decimal(str(0.95))
@@ -82,9 +86,14 @@ class CreateOrderView(CreateView):
             else:
                 self.object.total_price = calculated_real_total_price
                 total_price_text_for_confirmation_template = f'{calculated_real_total_price:.2f}'
+            self.object.save()
 
-            self.object.total_execution_time_in_minutes = calculated_total_execution_time
-            self.object.save(update_fields=['total_price', 'total_execution_time_in_minutes'])
+            for variant, quantity in selected_variants.items():
+                OrderItem.objects.create(
+                    order=self.object,
+                    service=variant,
+                    quantity=quantity
+                )
 
             end_hour = self.object.requested_date + timedelta(hours=calculated_total_execution_time / 60)
             ReservedHours.objects.create(
@@ -93,7 +102,13 @@ class CreateOrderView(CreateView):
                 end_hour=end_hour
             )
 
-            send_order_confirmation_email(requested_date=self.object.requested_date, user_email=self.object.email, order_items=self.object.items.all(), total_price=calculated_real_total_price, has_discount=has_discount)
+            transaction.on_commit(lambda: send_order_confirmation_email(
+                requested_date=self.object.requested_date,
+                user_email=self.object.email,
+                order_items=list(selected_variants.items()),
+                total_price=calculated_real_total_price,
+                has_discount=has_discount
+            ))
 
             self.request.session['order_confirmation'] = {
                 'full_name': self.object.full_name,

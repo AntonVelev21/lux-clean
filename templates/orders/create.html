@@ -73,10 +73,10 @@
                                     {% endif %}
                                     <span class="text-base font-bold text-slate-100">{{ service.name }}</span>
                                 </div>
-                                <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-300 arrow-icon {% if service.id == requested_variant.service.id %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-300 arrow-icon {% if service.id == requested_variant.service.id or selected_variants %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
 
-                            <div class="accordion-content px-4 py-2 border-t border-slate-700/50 bg-slate-900/40 {% if service.id != requested_variant.service.id %}hidden{% endif %}">
+                            <div class="accordion-content px-4 py-2 border-t border-slate-700/50 bg-slate-900/40 {% if service.id != requested_variant.service.id and not selected_variants %}hidden{% endif %}">
                                 <div class="divide-y divide-slate-700/30">
                                     {% for variant in service.variants.all %}
                                     <div class="py-3 flex flex-col gap-2">
@@ -89,7 +89,7 @@
                                             <button type="button" class="qty-btn minus w-7 h-7 flex items-center justify-center rounded-md bg-slate-800 text-white shadow-sm hover:bg-[#00AEEF] transition">-</button>
 
                                             <input type="number" name="variant_{{ variant.id }}"
-                                                   value="{% if variant.id == requested_variant.id %}1{% else %}0{% endif %}"
+                                                   value="{% if selected_variants %}{% if variant in selected_variants %}{% for sel_variant, quantity in selected_variants.items %}{% if sel_variant == variant %}{{ quantity }}{% endif %}{% endfor %}{% else %}0{% endif %}{% elif variant.id == requested_variant.id %}1{% else %}0{% endif %}"
                                                    min="0" max="99" data-price="{{ variant.price|stringformat:'f' }}" data-name="{{ variant.name }}"
                                                    autocomplete="off"
                                                    class="variant-input w-8 text-center bg-transparent border-none focus:ring-0 text-white font-bold p-0 text-sm">
