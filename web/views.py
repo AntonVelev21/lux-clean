@@ -6,7 +6,7 @@ class HomePageView(TemplateView):
 
 
 class ForUsView(TemplateView):
-    template_name = 'web/for_us.html'
+    template_name = 'web/about.html'
 
 
 

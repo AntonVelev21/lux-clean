@@ -5,16 +5,16 @@
 {% block description %}Върнете живота на вашият дом с нашето професионално машинно изпиране. Екологични препарати, безопасни за деца и домашни любимци.{% endblock %}
 
 {% block content %}
-<section class="relative bg-slate-900 overflow-hidden py-16 lg:py-24">
-    <div class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[60vh]">
+<section class="relative bg-slate-900 overflow-hidden pt-16 pb-32 lg:pt-20 lg:pb-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
             <div class="lg:col-span-7">
                 <span class="inline-block py-1 px-3 rounded-full bg-brand-blue/20 text-brand-electric font-semibold text-sm mb-6 border border-brand-blue/30 backdrop-blur-sm">
                     #1 в професионалното почистване
                 </span>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
-                    Върнете живота на <span class="text-brand-blue">вашия дом</span>
+                    Върнете <span class="text-brand-electric">живота</span> на <span class="text-brand-blue">вашия дом</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed font-light">
                     Премахваме упорити петна, прах и акари директно във вашия дом. Използваме 100% безопасни и екологични препарати.
@@ -38,7 +38,7 @@
             </div>
 
             <div class="lg:col-span-5 flex justify-center">
-                <div class="relative w-full max-w-md lg:max-w-none">
+                <div class="relative w-full max-w-md">
                     <div class="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-electric rounded-3xl blur opacity-30"></div>
                     <img src="{% static 'images/logo_hero_section.jpeg' %}" alt="LuxClean" class="relative rounded-2xl object-contain w-full h-auto shadow-2xl border border-slate-700/50">
                 </div>
@@ -48,7 +48,7 @@
     </div>
 </section>
 
-<section class="bg-white py-10 border-b border-slate-100 relative z-10 -mt-10 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl">
+<section class="bg-white py-10 border-b border-slate-100 relative z-10 -mt-20 sm:-mt-24 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8">
         <div class="flex items-center gap-4">
             <div class="flex-shrink-0 w-12 h-12 bg-green-50 text-brand-green rounded-full flex items-center justify-center">
@@ -155,22 +155,5 @@
     </div>
 </section>
 
-<section class="py-20 bg-brand-electric">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Готови ли сте за безупречна чистота?</h2>
-        <p class="text-xl text-cyan-50 mb-5">Направете резервация за по-малко от 2 минути и запазете своя час.</p>
-
-        <div class="inline-flex items-center justify-center gap-2 bg-slate-900/90 text-white px-5 py-2 rounded-full mb-10 border border-white/20 shadow-sm backdrop-blur-sm">
-            <svg class="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span class="text-sm font-medium">Специално предложение: <strong class="text-green-300">5 % отстъпка</strong> за поръчки над 200 €</span>
-        </div>
-
-        <div>
-            <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-10 py-4 bg-white text-brand-electric rounded-full font-bold text-lg hover:bg-slate-50 hover:shadow-xl transition-all transform hover:-translate-y-1">
-                Към онлайн калкулатора
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </a>
-        </div>
-    </div>
-</section>
+{% include 'common/down_part.html' %}
 {% endblock %}

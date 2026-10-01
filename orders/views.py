@@ -78,7 +78,7 @@ class CreateOrderView(CreateView):
         end_hour = requested_date + timedelta(hours=calculated_total_execution_time / 60)
 
         if end_hour.hour >= 18.30:
-            form.add_error(None, "Вашата поръчка ще надхвърли максималното ни работно време (до 18:30). Моля, изберете по-ранен час или по-малко услуги.")
+            form.add_error(None, "Вашата поръчка ще надхвърля максималното ни работно време (до 18:30). Моля, изберете по-ранен час или по-малко услуги.")
             return self.form_invalid(form)
 
         with transaction.atomic():
@@ -153,6 +153,8 @@ class CalendarView(ListView):
         requested_date = self.request.GET.get('selected_date')
         reserved_hours = ReservedHours.objects.filter(start_hour__date=requested_date)
         day_hours_slots = {
+            9:True,
+            9.30: True,
             10: True,
             10.30: True,
             11: True,
@@ -166,7 +168,8 @@ class CalendarView(ListView):
             15: True,
             15.30: True,
             16: True,
-            16.30: True
+            16.30: True,
+            17: True,
 
         }
 

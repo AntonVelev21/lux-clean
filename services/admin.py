@@ -28,6 +28,7 @@ class ServiceAdmin(ModelAdmin):
     list_display = ["name", "thumbnail", "variant_count", "description_preview"]
     search_fields = ["name", "description"]
     inlines = [ServiceVariantInline]
+    exclude = ['slug']
 
     def thumbnail(self, obj):
         if not obj.image:

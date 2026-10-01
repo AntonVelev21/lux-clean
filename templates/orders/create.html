@@ -5,16 +5,18 @@
 <link rel="stylesheet" href="{% static 'css/calculator.css' %}">
 {% endblock %}
 
-{% block title %}Направете поръчка | CleanService{% endblock %}
+{% block title %}Направете поръчка | LuxClean{% endblock %}
 
 {% block content %}
+<div id="page-loading-bar"></div>
+
 <section class="relative bg-slate-900 overflow-hidden flex items-center justify-center pt-28 pb-48" style="background-image: url('{% static 'images/hero_section_orders_create.jpg' %}'); background-size: cover; background-position: center;">
 
     <div class="absolute inset-0 bg-slate-950/80 z-0"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
         <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-md">
-            Направете <span class="text-[#00AEEF]">вашата</span> поръчка
+            Направете <span class="text-brand-electric">вашата</span> <span class="text-brand-blue">поръчка</span>
         </h1>
 
         <div class="max-w-3xl mx-auto flex flex-col items-center gap-5">

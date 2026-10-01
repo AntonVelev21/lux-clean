@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelForm
 from django.utils import timezone
@@ -6,6 +8,9 @@ from orders.models import Order
 
 
 class OrderCreateForm(ModelForm):
+    FIRST_WORKING_HOUR = 9
+    LAST_WORKING_HOUR = 17
+
     class Meta:
         model = Order
         exclude = ['created_at', 'updated_at', 'status', 'total_price', 'total_execution_time_in_minutes']
@@ -53,8 +58,19 @@ class OrderCreateForm(ModelForm):
             return requested_date
 
         now = timezone.now()
+
         if requested_date < now:
-            raise ValidationError("Моля изберете бъдещи час и дата.")
+            raise ValidationError('Моля изберете бъдещи час и дата.')
+
+
+        if requested_date.hour > self.LAST_WORKING_HOUR:
+            raise ValidationError('Избраният от Вас час не е в работното ни време. Моля, изберете час преди 17:00.')
+
+
+        if requested_date.hour < self.FIRST_WORKING_HOUR:
+            raise ValidationError('Избраният от Вас час не е в работното ни време. Моля, изберете час след 9:00.')
 
         return requested_date
+
+
 
