@@ -1,0 +1,48 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}Страницата не е намерена | LuxClean{% endblock %}
+{% block description %}Страницата, която търсите, не съществува или е преместена. Върнете се към LuxClean.{% endblock %}
+
+{% block content %}
+<section class="relative bg-slate-900 text-white overflow-hidden py-24 lg:py-32">
+    <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+
+        <div class="flex items-center justify-center gap-1 sm:gap-3 select-none" role="img" aria-label="Грешка 404">
+            <span class="text-8xl sm:text-9xl lg:text-[11rem] font-black leading-none tracking-tight text-white">4</span>
+
+            <svg class="w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 drop-shadow-[0_0_30px_rgba(14,165,233,0.45)]" viewBox="0 0 100 100" aria-hidden="true">
+                <defs>
+                    <linearGradient id="drop404" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#06b6d4"/>
+                        <stop offset="100%" stop-color="#0ea5e9"/>
+                    </linearGradient>
+                </defs>
+                <path d="M50 6 C50 6 18 42 18 64 a32 32 0 0 0 64 0 C82 42 50 6 50 6 Z" fill="url(#drop404)"/>
+                <ellipse cx="38" cy="62" rx="6" ry="12" fill="#fff" opacity="0.28" transform="rotate(18 38 62)"/>
+            </svg>
+
+            <span class="text-8xl sm:text-9xl lg:text-[11rem] font-black leading-none tracking-tight text-white">4</span>
+        </div>
+
+        <h1 class="mt-8 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            Тази страница не е намерена
+        </h1>
+
+        <p class="mt-5 text-slate-300 text-lg sm:text-xl max-w-xl mx-auto leading-relaxed font-normal">
+            Адресът може да е написан грешно или страницата да е преместена. Върнете се в началото или изчислете цената за почистването си.
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'home-page' %}" class="inline-flex justify-center items-center px-8 py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-orange/40">
+                Към началната страница
+            </a>
+            <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 rounded-full border border-slate-600 text-slate-200 hover:bg-slate-800 hover:border-brand-electric font-bold text-lg transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-electric/40">
+                Изчисли цена
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
