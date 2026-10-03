@@ -5,8 +5,9 @@
 {% block description %}Върнете живота на вашият дом с нашето професионално машинно изпиране. Екологични препарати, безопасни за деца и домашни любимци.{% endblock %}
 
 {% block content %}
-<section class="relative bg-slate-900 overflow-hidden pt-16 pb-32 lg:pt-20 lg:pb-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="relative bg-slate-900 overflow-hidden pt-16 pb-40 lg:pt-20 lg:pb-48">
+    <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:24px_24px]"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
             <div class="lg:col-span-7">
@@ -30,7 +31,7 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-8 py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
+                    <a href="{% url 'orders:create' %}" class="inline-flex justify-center items-center px-7 py-3.5 bg-brand-orange hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-1">
                         Изчисли цена веднага
                         <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
