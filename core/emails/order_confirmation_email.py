@@ -1,7 +1,12 @@
 from decimal import Decimal
-
 from django.conf import settings
 from django.core.mail import send_mail
+
+
+
+def get_inlined_email_html(template_name: str, context: dict) -> str:
+    ...
+
 
 
 def send_order_confirmation_email(requested_date, user_email, order_items, total_price, has_discount):

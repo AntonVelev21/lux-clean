@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поръчката е приета | CleanService</title>
+</head>
+<body class="m-0 p-0 bg-slate-950 text-slate-100 font-sans">
+
+  <!-- Външен контейнер за фонов цвят и подравняване -->
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="w-full bg-slate-950 py-10 px-2">
+    <tr>
+      <td align="center">
+        
+        <!-- Основна карта с максимална ширина 560px -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="max-w-[560px] bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-left">
+          
+          <!-- Хедър / Лого -->
+          <tr>
+            <td class="pb-6 border-b border-slate-800 align-middle">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td>
+                    <!-- Заменете с пълния URL адрес към вашето лого -->
+                    <span class="text-xl font-black tracking-tight text-white">Clean<span class="text-[#00AEEF]">Service</span></span>
+                  </td>
+                  <td align="right">
+                    <span class="text-[10px] font-semibold text-slate-400 tracking-wider uppercase">Потвърждение</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Икона и Заглавие -->
+          <tr>
+            <td align="center" class="pt-8 pb-6">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" class="mb-4">
+                <tr>
+                  <td align="center" class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-2xl">
+                    ✓
+                  </td>
+                </tr>
+              </table>
+
+              <h1 class="text-2xl sm:text-3xl font-black text-white m-0 tracking-tight">
+                Поръчката е <span class="text-[#00AEEF]">приета</span>!
+              </h1>
+              
+              <p class="text-sm sm:text-base text-slate-300 pt-2 m-0 font-light">
+                Благодарим ви, {{ order.full_name }}! Успешно запазихме вашата заявка.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Детайли по поръчката -->
+          <tr>
+            <td class="pt-4">
+              <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-5">
+                <h2 class="text-base font-bold text-white pb-3 m-0 border-b border-slate-800">
+                  Детайли по поръчката
+                </h2>
+
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="text-sm">
+                  <tr>
+                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Име</td>
+                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.full_name }}</td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Телефон</td>
+                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.phone_number }}</td>
+                  </tr>
+
+                  {% if order.email %}
+                  <tr>
+                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Имейл</td>
+                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.email }}</td>
+                  </tr>
+                  {% endif %}
+
+                  <tr>
+                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Желана дата и час</td>
+                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.formatted_date }} в {{ order.formatted_time }} ч.</td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-3 text-slate-400 font-medium">Обща цена</td>
+                    <td class="py-3 text-right font-black text-[#00AEEF]">
+                      {% if order.has_discount %}
+                        <span class="text-slate-500 line-through mr-2 font-normal text-xs">{{ order.old_price }} €</span>
+                      {% endif %}
+                      <span class="text-base sm:text-lg">{{ order.total_price }} €</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Информационна карета -->
+          <tr>
+            <td class="pt-5">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="bg-slate-950/40 border border-slate-800/50 rounded-xl p-4">
+                <tr>
+                  <td width="32" class="align-top text-lg">
+                    📞
+                  </td>
+                  <td class="text-xs text-slate-300 leading-relaxed">
+                    Ще се свържем с вас по телефона в най-кратък срок, за да потвърдим часа и да уточним всички детайли.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Бутон -->
+          <tr>
+            <td align="center" class="pt-8 pb-4">
+              <a href="https://cleanservice.bg" class="inline-block bg-[#FF7300] text-white font-black text-sm py-3.5 px-8 rounded-xl no-underline shadow-lg">
+                Към уебсайта
+              </a>
+            </td>
+          </tr>
+
+          <!-- Футър -->
+          <tr>
+            <td class="pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+              <p class="m-0">© 2026 CleanService. Всички права запазени.</p>
+              <p class="mt-1 text-[11px] text-slate-600 m-0">
+                Автоматично изпратено потвърждение за вашата резервация.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
