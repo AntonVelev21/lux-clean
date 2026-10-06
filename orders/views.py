@@ -110,12 +110,17 @@ class CreateOrderView(CreateView):
                 end_hour=end_hour
             )
 
+            context = {
+                'full_name': self.object.full_name,
+                'requested_date': self.object.requested_date,
+                'user_email': self.object.email,
+                'order_items': list(selected_variants.items()),
+                'total_price': calculated_real_total_price,
+                'has_discount': has_discount
+            }
+
             transaction.on_commit(lambda: send_order_confirmation_email(
-                requested_date=self.object.requested_date,
-                user_email=self.object.email,
-                order_items=list(selected_variants.items()),
-                total_price=calculated_real_total_price,
-                has_discount=has_discount
+                context=context
             ))
 
             self.request.session['order_confirmation'] = {

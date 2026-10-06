@@ -1,143 +1,239 @@
+{% load static %}
+
 <!DOCTYPE html>
+
 <html lang="bg">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Поръчката е приета | CleanService</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поръчката е приета | LuxClean</title>
 </head>
-<body class="m-0 p-0 bg-slate-950 text-slate-100 font-sans">
 
-  <!-- Външен контейнер за фонов цвят и подравняване -->
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="w-full bg-slate-950 py-10 px-2">
+<body style="margin:0; padding:0; background-color:#f4f7fa; font-family:Arial, Helvetica, sans-serif; color:#0f1a2e;">
+
+```
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+       style="width:100%; margin:0; padding:0; background-color:#f4f7fa;">
     <tr>
-      <td align="center">
-        
-        <!-- Основна карта с максимална ширина 560px -->
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="max-w-[560px] bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-left">
-          
-          <!-- Хедър / Лого -->
-          <tr>
-            <td class="pb-6 border-b border-slate-800 align-middle">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <td align="center" style="padding:40px 16px;">
+
+            <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
+                   style="width:100%; max-width:600px; margin:0 auto; background-color:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 12px 35px rgba(15,26,46,0.12);">
+
                 <tr>
-                  <td>
-                    <!-- Заменете с пълния URL адрес към вашето лого -->
-                    <span class="text-xl font-black tracking-tight text-white">Clean<span class="text-[#00AEEF]">Service</span></span>
-                  </td>
-                  <td align="right">
-                    <span class="text-[10px] font-semibold text-slate-400 tracking-wider uppercase">Потвърждение</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+                    <td align="center"
+                        style="background-color:#0f1a2e; padding:42px 32px 40px;">
 
-          <!-- Икона и Заглавие -->
-          <tr>
-            <td align="center" class="pt-8 pb-6">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" class="mb-4">
-                <tr>
-                  <td align="center" class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-2xl">
-                    ✓
-                  </td>
-                </tr>
-              </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                               style="margin:0 auto 26px;">
+                            <tr>
+                                <td align="center">
+                                    <a href="https://luxclean.bg" target="_blank" style="text-decoration:none;">
+                                        <img src="{% static 'images/logo.jpg' %}"
+                                             alt="LuxClean Logo"
+                                             width="150"
+                                             style="display:block; width:150px; max-width:100%; height:auto; border:0; border-radius:10px;">
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
 
-              <h1 class="text-2xl sm:text-3xl font-black text-white m-0 tracking-tight">
-                Поръчката е <span class="text-[#00AEEF]">приета</span>!
-              </h1>
-              
-              <p class="text-sm sm:text-base text-slate-300 pt-2 m-0 font-light">
-                Благодарим ви, {{ order.full_name }}! Успешно запазихме вашата заявка.
-              </p>
-            </td>
-          </tr>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                               style="margin:0 auto 24px;">
+                            <tr>
+                                <td align="center"
+                                    style="width:64px; height:64px; background-color:rgba(34,197,94,0.10); border:1px solid rgba(34,197,94,0.30); border-radius:50%; font-size:34px; line-height:64px; color:#4ade80; font-weight:700;">
+                                    ✓
+                                </td>
+                            </tr>
+                        </table>
 
-          <!-- Детайли по поръчката -->
-          <tr>
-            <td class="pt-4">
-              <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-5">
-                <h2 class="text-base font-bold text-white pb-3 m-0 border-b border-slate-800">
-                  Детайли по поръчката
-                </h2>
+                        <h1 style="margin:0 0 16px; padding:0; font-size:32px; line-height:1.2; font-weight:800; color:#ffffff;">
+                            Поръчката е <span style="color:#00AEEF;">приета</span>!
+                        </h1>
 
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="text-sm">
-                  <tr>
-                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Име</td>
-                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.full_name }}</td>
-                  </tr>
+                        <p style="margin:0; padding:0; font-size:16px; line-height:1.7; color:#cbd5e1;">
+                            Благодарим ви,
+                            <strong style="color:#ffffff;">
+                                {{ full_name|default:user_email }}
+                            </strong>!
+                            Успешно запазихме вашата заявка.
+                        </p>
 
-                  <tr>
-                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Телефон</td>
-                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.phone_number }}</td>
-                  </tr>
-
-                  {% if order.email %}
-                  <tr>
-                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Имейл</td>
-                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.email }}</td>
-                  </tr>
-                  {% endif %}
-
-                  <tr>
-                    <td class="py-3 text-slate-400 font-medium border-b border-slate-800/80">Желана дата и час</td>
-                    <td class="py-3 text-white font-bold text-right border-b border-slate-800/80">{{ order.formatted_date }} в {{ order.formatted_time }} ч.</td>
-                  </tr>
-
-                  <tr>
-                    <td class="py-3 text-slate-400 font-medium">Обща цена</td>
-                    <td class="py-3 text-right font-black text-[#00AEEF]">
-                      {% if order.has_discount %}
-                        <span class="text-slate-500 line-through mr-2 font-normal text-xs">{{ order.old_price }} €</span>
-                      {% endif %}
-                      <span class="text-base sm:text-lg">{{ order.total_price }} €</span>
                     </td>
-                  </tr>
-                </table>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Информационна карета -->
-          <tr>
-            <td class="pt-5">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="bg-slate-950/40 border border-slate-800/50 rounded-xl p-4">
-                <tr>
-                  <td width="32" class="align-top text-lg">
-                    📞
-                  </td>
-                  <td class="text-xs text-slate-300 leading-relaxed">
-                    Ще се свържем с вас по телефона в най-кратък срок, за да потвърдим часа и да уточним всички детайли.
-                  </td>
                 </tr>
-              </table>
-            </td>
-          </tr>
 
-          <!-- Бутон -->
-          <tr>
-            <td align="center" class="pt-8 pb-4">
-              <a href="https://cleanservice.bg" class="inline-block bg-[#FF7300] text-white font-black text-sm py-3.5 px-8 rounded-xl no-underline shadow-lg">
-                Към уебсайта
-              </a>
-            </td>
-          </tr>
+                <tr>
+                    <td style="padding:32px 32px 28px;">
 
-          <!-- Футър -->
-          <tr>
-            <td class="pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
-              <p class="m-0">© 2026 CleanService. Всички права запазени.</p>
-              <p class="mt-1 text-[11px] text-slate-600 m-0">
-                Автоматично изпратено потвърждение за вашата резервация.
-              </p>
-            </td>
-          </tr>
+                        <h2 style="margin:0 0 20px; padding:0; font-size:21px; line-height:1.3; font-weight:700; color:#0f1a2e;">
+                            Детайли по поръчката
+                        </h2>
 
-        </table>
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                               style="width:100%; border-collapse:collapse;">
 
-      </td>
+                            <tr>
+                                <td style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:600; color:#64748b;">
+                                    Име
+                                </td>
+                                <td align="right"
+                                    style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:700; color:#0f1a2e;">
+                                    {{ full_name|default:"-" }}
+                                </td>
+                            </tr>
+
+                            {% if user_phone %}
+                            <tr>
+                                <td style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:600; color:#64748b;">
+                                    Телефон
+                                </td>
+                                <td align="right"
+                                    style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:700; color:#0f1a2e;">
+                                    {{ user_phone }}
+                                </td>
+                            </tr>
+                            {% endif %}
+
+                            <tr>
+                                <td style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:600; color:#64748b;">
+                                    Имейл
+                                </td>
+                                <td align="right"
+                                    style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:700; color:#0f1a2e; word-break:break-word;">
+                                    {{ user_email }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:600; color:#64748b;">
+                                    Желана дата и час
+                                </td>
+                                <td align="right"
+                                    style="padding:13px 0; border-bottom:1px solid #eef2f6; font-size:14px; font-weight:700; color:#0f1a2e;">
+                                    {{ requested_date|date:"d.m.Y" }} в {{ requested_date|date:"H:i" }} ч.
+                                </td>
+                            </tr>
+
+                            {% if order_items %}
+                            <tr>
+                                <td colspan="2"
+                                    style="padding:20px 0 8px; font-size:14px; font-weight:700; color:#0f1a2e;">
+                                    Поръчани услуги
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2"
+                                    style="padding:0 0 10px; font-size:14px; font-weight:600; color:#64748b;">
+                                    Почистване на:
+                                </td>
+                            </tr>
+
+                            {% for service, quantity in order_items %}
+                            <tr>
+                                <td style="padding:7px 0; font-size:14px; color:#475569;">
+                                    • {{ service }}
+                                </td>
+                                <td align="right"
+                                    style="padding:7px 0; font-size:14px; font-weight:600; color:#475569;">
+                                    {{ quantity }} бр.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+
+                            <tr>
+                                <td style="padding:18px 0 5px; font-size:15px; font-weight:700; color:#0f1a2e; border-top:2px solid #eef2f6;">
+                                    Обща цена
+                                </td>
+
+                                <td align="right"
+                                    style="padding:18px 0 5px; border-top:2px solid #eef2f6; font-size:21px; font-weight:800; color:#00AEEF;">
+
+                                    {% if has_discount %}
+                                        <span style="font-size:14px; font-weight:600; color:#64748b; text-decoration:line-through; margin-right:6px;">
+                                            {{ total_price }} €
+                                        </span>
+                                        <span>
+                                            {{ price_after_discount }} €
+                                        </span>
+                                    {% else %}
+                                        <span>
+                                            {{ total_price }} €
+                                        </span>
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:28px 32px; background-color:#f4f7fa;">
+
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                               style="width:100%;">
+                            <tr>
+                                <td valign="top" width="42"
+                                    style="width:42px; padding-right:12px;">
+
+                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                        <tr>
+                                            <td align="center"
+                                                style="width:40px; height:40px; background-color:rgba(255,115,0,0.10); border-radius:10px; font-size:19px; line-height:40px; color:#FF7300;">
+                                                ☎
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+
+                                <td valign="middle"
+                                    style="font-size:14px; line-height:1.7; color:#475569;">
+                                    Ще се свържем с вас по телефона в най-кратък срок,
+                                    за да потвърдим часа и да уточним всички детайли.
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center" style="padding:30px 32px 32px;">
+
+                        <a href="https://luxclean.bg"
+                           target="_blank"
+                           style="display:inline-block; padding:14px 28px; background-color:#FF7300; color:#ffffff; font-size:15px; font-weight:800; line-height:1.2; text-decoration:none; border-radius:10px; box-shadow:0 8px 18px rgba(255,115,0,0.22);">
+                            Към сайта
+                        </a>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center"
+                        style="padding:22px 32px 28px; border-top:1px solid #eef2f6; background-color:#ffffff;">
+
+                        <p style="margin:0 0 7px; padding:0; font-size:12px; line-height:1.5; color:#64748b;">
+                            © 2026 LuxClean. Всички права запазени.
+                        </p>
+
+                        <p style="margin:0; padding:0; font-size:11px; line-height:1.5; color:#94a3b8;">
+                            Автоматично изпратено потвърждение за вашата резервация.
+                        </p>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
     </tr>
-  </table>
+</table>
+```
 
 </body>
 </html>
