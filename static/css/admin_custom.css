@@ -1,0 +1,52 @@
+@media (max-width: 1023px) {
+    div:has(> table#result_list) {
+        background-color: var(--color-base-300, #d1d5db);
+        border-radius: 0.75rem;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0.75rem !important;
+    }
+
+    table#result_list tbody {
+        background: transparent !important;
+    }
+
+    table#result_list tr.data-row {
+        background-color: #fff;
+        border: 1px solid var(--color-base-400, #9ca3af);
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+        margin-bottom: 1.25rem;
+        overflow: hidden;
+    }
+
+    table#result_list tbody:last-child tr.data-row {
+        margin-bottom: 0;
+    }
+
+    table#result_list tr.data-row > td:last-child {
+        border-bottom: 0;
+    }
+
+    html.dark div:has(> table#result_list),
+    .dark div:has(> table#result_list) {
+        background-color: #000;
+    }
+
+    .dark table#result_list tr.data-row {
+        background-color: var(--color-base-700, #374151);
+        border-color: var(--color-base-500, #6b7280);
+        box-shadow: none;
+    }
+}
+
+@supports (height: 100dvh) {
+    #nav-sidebar {
+        max-height: 100dvh;
+    }
+
+    #nav-sidebar-inner {
+        min-height: 100dvh;
+        max-height: 100dvh;
+    }
+}

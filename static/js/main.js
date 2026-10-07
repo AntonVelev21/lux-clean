@@ -1,4 +1,4 @@
-function initMobileMenu() {
+function closeMobileMenu() {
     const btn = document.getElementById('mobile-menu-button');
     const menu = document.getElementById('mobile-menu');
 
@@ -6,19 +6,42 @@ function initMobileMenu() {
         return;
     }
 
-    if (btn.dataset.menuInitialized === 'true') {
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+}
+
+function initMobileMenu() {
+    // Delegated listeners on document survive body swaps and history
+    // restores (which bring back DOM snapshots without event listeners).
+    // The window flag prevents duplicates when HTMX re-runs this script.
+    if (window.mobileMenuInitialized) {
         return;
     }
 
-    btn.dataset.menuInitialized = 'true';
+    window.mobileMenuInitialized = true;
 
-    btn.addEventListener('click', () => {
+    document.addEventListener('click', (evt) => {
+        const btn = evt.target.closest('#mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if (!btn || !menu) {
+            return;
+        }
+
         const isHidden = menu.classList.toggle('hidden');
 
         btn.setAttribute(
             'aria-expanded',
             String(!isHidden)
         );
+    });
+
+    document.body.addEventListener('htmx:beforeHistorySave', closeMobileMenu);
+    document.body.addEventListener('htmx:historyRestore', closeMobileMenu);
+    window.addEventListener('pageshow', (evt) => {
+        if (evt.persisted) {
+            closeMobileMenu();
+        }
     });
 }
 

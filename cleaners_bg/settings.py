@@ -174,6 +174,9 @@ UNFOLD = {
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
     "SHOW_BACK_BUTTON": True,
+    "STYLES": [
+        lambda request: static("css/admin_custom.css"),
+    ],
     "COLORS": {
         "primary": {
             "50": "oklch(98.4% .014 180.72)",
@@ -196,7 +199,7 @@ UNFOLD = {
     "SIDEBAR": {
         "show_search": True,
         "command_search": True,
-        "show_all_applications": True,
+        "show_all_applications": False,
         "navigation": [
             {
                 "title": "Overview",
@@ -205,6 +208,7 @@ UNFOLD = {
                         "title": "Dashboard",
                         "icon": "dashboard",
                         "link": reverse_lazy("admin:index"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                 ],
             },
@@ -222,16 +226,19 @@ UNFOLD = {
                         "title": "Reserved hours",
                         "icon": "event_available",
                         "link": reverse_lazy("admin:orders_reservedhours_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": "Services",
                         "icon": "cleaning_services",
                         "link": reverse_lazy("admin:services_service_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": "Service variants",
                         "icon": "sell",
                         "link": reverse_lazy("admin:services_servicevariant_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                 ],
             },
@@ -243,17 +250,20 @@ UNFOLD = {
                         "title": "Users",
                         "icon": "group",
                         "link": reverse_lazy("admin:users_user_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": "Groups",
                         "icon": "shield_person",
                         "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
                     },
                 ],
             },
         ],
     },
     "DASHBOARD_CALLBACK": "core.admin_dashboard.dashboard_callback",
+
 }
 
 CSRF_TRUSTED_ORIGINS = [

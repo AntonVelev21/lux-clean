@@ -42,6 +42,7 @@ class OrderAdmin(ModelAdmin):
         "created_at",
     ]
 
+
     ordering = ['-requested_date']
 
     list_display_links = ["id", "full_name"]

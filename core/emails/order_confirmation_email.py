@@ -24,7 +24,7 @@ def send_order_confirmation_email(context):
         price_after_discount = total_price * Decimal(str(0.95))
         price_after_discount_str = f"{price_after_discount:.2f}"
         price_info_text = f"Стара цена: {total_price_str} € -> Цена с приложена 5% отстъпка: {price_after_discount_str} €\n"
-        context['price_after_discount'] = price_after_discount
+        context['price_after_discount'] = price_after_discount_str
     else:
         price_info_text = f"С цена: {total_price_str} €\n"
 
