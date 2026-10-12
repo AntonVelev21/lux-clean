@@ -175,6 +175,7 @@ class CalendarView(ListView):
             16: True,
             16.30: True,
             17: True,
+            17.30: True
 
         }
 
