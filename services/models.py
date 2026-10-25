@@ -23,9 +23,9 @@ class Service(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            name_for_slug = ''.join(BG_MAP[l.lower()] if l.lower() in BG_MAP else l.lower() for l in self.name)
+            name_for_slug = ''.join(BG_MAP[l.lower()] if l.lower() in BG_MAP else l for l in self.name)
             self.slug = slugify(name_for_slug)
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
