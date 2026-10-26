@@ -25,9 +25,13 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-md">
-            {{ first_part }}
-            {{ second_part }}
-            <span class="text-brand-electric">{{ last_part }}</span>
+            {% for i, name in name_parts.items %}
+                {% if i|divisibleby:2 %}
+                    {{ name }}
+                {% else %}
+                    <span class="text-brand-blue">{{ name }}</span>
+                {% endif %}
+            {% endfor %}
         </h1>
 
         <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto font-light drop-shadow-sm line-clamp-2">
