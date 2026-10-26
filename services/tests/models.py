@@ -1,5 +1,7 @@
 import io
-from django.test import TestCase
+import shutil
+import tempfile
+from django.test import TestCase, override_settings
 import os
 import django
 from django.core.exceptions import ValidationError
@@ -11,8 +13,16 @@ django.setup()
 from services.models import Service
 from PIL import Image
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp()
 
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class ServiceModelTests(TestCase):
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        super().tearDownClass()
+
 
     @staticmethod
     def _create_image(width, height):
