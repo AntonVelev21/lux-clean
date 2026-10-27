@@ -2,30 +2,28 @@
 
 A web platform for a professional cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
 
-> 🚧 **Work in progress**: this project is currently under active development. 🚧
-
-![Status](https://img.shields.io/badge/status-in%20development-orange?style=flat-square)
-![Python](https://img.shields.io/badge/python-3.11-blue?style=flat-square&logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/django-%23092E20?style=flat-square&logo=django&logoColor=white)
-![Tailwind](https://img.shields.io/badge/tailwind-%2338B2AC?style=flat-square&logo=tailwindcss&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192?style=flat-square&logo=postgresql&logoColor=white)
+> 🚧 **Work in progress:** this project is currently under active development. 🚧
 
 ## 🧱 Project structure
+
+| App | Purpose |
+|-----|---------|
 | `core` | Shared logic and base functionality |
 | `web` | Public pages |
 | `services` | Cleaning services offered |
 | `orders` | Order creation logic |
 | `users` | Accounts and authentication |
 
-
 ## 🛠️ Technologies used
+
+| Area | Technology |
+|------|------------|
 | **Language** | Python |
 | **Backend** | Django |
 | **Database** | PostgreSQL |
 | **Frontend** | Tailwind CSS, Django Templates |
 | **Tooling** | Node.js / npm (Tailwind build), Git |
 | **Dev environment** | PyCharm, virtualenv (`.venv`) |
-
 
 ## 🚀 Getting started
 
@@ -48,4 +46,4 @@ python manage.py runserver
 
 ## 👤 Author
 
-**Anton Velev**: [LinkedIn](https://www.linkedin.com/in/anton-velev-python/)
+**Anton Velev:** [LinkedIn](https://www.linkedin.com/in/anton-velev-python/)
