@@ -6,19 +6,24 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 
 ## 📸 Screenshots
 
+| Home page | Services | Create order |
+|:---------:|:--------:|:------------:|
+| ![Home page](static/images_for_readme/home-page.png) | ![Services](static/images_for_readme/services.png) | ![Create order](static/images_for_readme/create-order.png) |
+
+<details>
+<summary>📂 More screenshots</summary>
+
 ### 🌐 Public pages
 
-| Home page | Services | Service detail |
-|:---------:|:--------:|:--------------:|
-| ![Home page](static/images_for_readme/home-page.png) | ![Services](static/images_for_readme/services.png) | ![Service detail](static/images_for_readme/service-detail.png) |
-| **About us** | **Contacts** | **Footer** |
-| ![About us](static/images_for_readme/about.png) | ![Contacts](static/images_for_readme/contacts.png) | ![Footer](static/images_for_readme/footer_and_down_part.png) |
+| Service detail | About us | Contacts |
+|:--------------:|:--------:|:--------:|
+| ![Service detail](static/images_for_readme/service-detail.png) | ![About us](static/images_for_readme/about.png) | ![Contacts](static/images_for_readme/contacts.png) |
 
 ### 📝 Ordering
 
-| Create order | Calendar |
-|:------------:|:--------:|
-| ![Create order](static/images_for_readme/create-order.png) | ![Calendar](static/images_for_readme/calendar.png) |
+| Calendar |
+|:--------:|
+| ![Calendar](static/images_for_readme/calendar.png) |
 
 ### 🛠️ Admin panel
 
@@ -26,6 +31,7 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 |:---------:|:------:|
 | ![Admin dashboard](static/images_for_readme/django_admin_dashboard.png) | ![Admin orders](static/images_for_readme/django_admin_orders.png) |
 
+</details>
 
 ## 🧱 Project structure
 
