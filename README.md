@@ -6,11 +6,26 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 
 ## 📸 Screenshots
 
-|                      Home page                       | Services | Service detail |
-|:----------------------------------------------------:|:--------:|:--------------:|
+### 🌐 Public pages
+
+| Home page | Services | Service detail |
+|:---------:|:--------:|:--------------:|
 | ![Home page](static/images_for_readme/home-page.png) | ![Services](static/images_for_readme/services.png) | ![Service detail](static/images_for_readme/service-detail.png) |
-|                   **Create order**                   | **Calendar** | **About us** |
-|    ![Create order](static/images_for_readme/create-order.png)     | ![Calendar](static/images_for_readme/calendar.png) | ![About us](static/images_for_readme/about.png) |
+| **About us** | **Contacts** | **Footer** |
+| ![About us](static/images_for_readme/about.png) | ![Contacts](static/images_for_readme/contacts.png) | ![Footer](static/images_for_readme/footer_and_down_part.png) |
+
+### 📝 Ordering
+
+| Create order | Calendar |
+|:------------:|:--------:|
+| ![Create order](static/images_for_readme/create-order.png) | ![Calendar](static/images_for_readme/calendar.png) |
+
+### 🛠️ Admin panel
+
+| Dashboard | Orders |
+|:---------:|:------:|
+| ![Admin dashboard](static/images_for_readme/django_admin_dashboard.png) | ![Admin orders](static/images_for_readme/django_admin_orders.png) |
+
 
 ## 🧱 Project structure
 
@@ -22,6 +37,7 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 | `orders` | Order creation logic |
 | `users` | Accounts and authentication |
 
+
 ## 🛠️ Technologies used
 
 | Area | Technology |
@@ -32,6 +48,7 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 | **Frontend** | Tailwind CSS, Django Templates |
 | **Tooling** | Node.js / npm (Tailwind build), Git |
 | **Dev environment** | PyCharm, virtualenv (`.venv`) |
+
 
 ## 🚀 Getting started
 
