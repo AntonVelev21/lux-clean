@@ -1,6 +1,6 @@
 #  LuxClean
 
-A web platform for a professional cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
+A web platform designed to serve a real cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
 
 > 🚧 **Work in progress:** this project is currently under active development. 🚧
 
