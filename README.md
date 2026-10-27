@@ -1,10 +1,10 @@
-# 🧼✨ LuxClean
+#  LuxClean
 
 A web platform for a professional cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
 
 > 🚧 **Work in progress:** this project is currently under active development. 🚧
 
-## 📸 Screenshots
+##  Screenshots
 
 | Home page | Services | Create order |
 |:---------:|:--------:|:------------:|
@@ -33,7 +33,7 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 
 </details>
 
-## 🧱 Project structure
+##  Project structure
 
 | App | Purpose |
 |-----|---------|
@@ -44,7 +44,7 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 | `users` | Accounts and authentication |
 
 
-## 🛠️ Technologies used
+##  Technologies used
 
 | Area | Technology |
 |------|------------|
