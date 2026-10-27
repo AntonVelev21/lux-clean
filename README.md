@@ -4,6 +4,14 @@ A web platform for a professional cleaning business, built with **Django**, **Ta
 
 > 🚧 **Work in progress:** this project is currently under active development. 🚧
 
+## 📸 Screenshots
+
+|                      Home page                       | Services | Service detail |
+|:----------------------------------------------------:|:--------:|:--------------:|
+| ![Home page](static/images_for_readme/home-page.png) | ![Services](static/images_for_readme/services.png) | ![Service detail](static/images_for_readme/service-detail.png) |
+|                   **Create order**                   | **Calendar** | **About us** |
+|    ![Create order](static/images_for_readme/create-order.png)     | ![Calendar](static/images_for_readme/calendar.png) | ![About us](static/images_for_readme/about.png) |
+
 ## 🧱 Project structure
 
 | App | Purpose |
