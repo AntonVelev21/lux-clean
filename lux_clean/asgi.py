@@ -1,5 +1,5 @@
 """
-ASGI config for cleaners_bg project.
+ASGI config for lux_clean project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cleaners_bg.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lux_clean.settings')
 
 application = get_asgi_application()
