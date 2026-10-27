@@ -18,9 +18,8 @@ class ServiceDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['first_part'] = self.object.name.split()[0]
-        context['second_part'] = self.object.name.split()[1]
-        context['last_part'] = self.object.name.split()[2]
+        name_parts = {i: name for i, name in enumerate(self.object.name.split())}
+        context['name_parts'] = name_parts
         return context
 
 

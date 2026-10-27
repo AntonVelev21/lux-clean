@@ -5,7 +5,7 @@ import django
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lux_clean.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cleaners_bg.settings')
 django.setup()
 
 from services.models import Service
