@@ -1,9 +1,6 @@
 import shutil
-import tempfile
 from django.test import TestCase, override_settings
-from services.tests.mixins import ServiceCreateMixin
-
-TEMP_MEDIA_ROOT = tempfile.mkdtemp()
+from services.tests.mixins import ServiceCreateMixin, TEMP_MEDIA_ROOT
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)

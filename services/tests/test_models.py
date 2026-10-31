@@ -1,13 +1,9 @@
 import shutil
-import tempfile
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.test.utils import override_settings
-from services.tests.mixins import ServiceCreateMixin
-from services.tests.test_views import TEMP_MEDIA_ROOT
+from services.tests.mixins import ServiceCreateMixin, TEMP_MEDIA_ROOT
 
-
-TEMP_MEDIA_ROOT = tempfile.mkdtemp()
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)

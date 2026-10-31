@@ -1,8 +1,10 @@
 import io
+import tempfile
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from services.models import Service
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp()
 
 class ServiceCreateMixin:
     @staticmethod
