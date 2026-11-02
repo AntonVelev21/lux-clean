@@ -20,7 +20,7 @@ class ServiceCreateMixin:
         )
 
 
-    def _create_service(self, **kwargs):
+    def create_service(self, **kwargs):
         defaults = {
             'name': 'Пране на пердета',
             'description': 'Детайлно почистване и пране на пердета.',

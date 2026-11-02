@@ -1,6 +1,5 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-
 from core.choices.city_choices import CityChoices
 from core.choices.status_choices import StatusChoices
 from core.validators.client_phone_validator import ClientPhoneValidator

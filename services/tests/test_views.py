@@ -16,7 +16,7 @@ class ServiceViewTests(ServiceCreateMixin, TestCase):
 
 
     def test_get_context_data_in_detail_view_returns_correct_kvp(self):
-        service = self._create_service(name='Пране на пердета')
+        service = self.create_service(name='Пране на пердета')
         url = reverse('services:detail', kwargs={'slug': service.slug})
         response = self.client.get(url)
         context_data = {0: 'Пране', 1: 'на', 2: 'пердета'}
@@ -33,7 +33,7 @@ class ServiceViewTests(ServiceCreateMixin, TestCase):
 
 
     def test_list_services_expect_success(self):
-        service = self._create_service(name='Пране на пердета')
+        service = self.create_service(name='Пране на пердета')
         url = reverse('services:list')
         response = self.client.get(url)
 
