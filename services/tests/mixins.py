@@ -19,6 +19,7 @@ class ServiceCreateMixin:
             content_type='image/jpeg'
         )
 
+
     def _create_service(self, **kwargs):
         defaults = {
             'name': 'Пране на пердета',

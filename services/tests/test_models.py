@@ -14,7 +14,6 @@ class ServiceModelTests(ServiceCreateMixin, TestCase):
         super().tearDownClass()
 
 
-
     def test_service_with_invalid_image_resolution_fails_validation_and_raises_exception(self):
         service_with_invalid_image_size = self._create_service(image=self._create_image(100, 100))
         with self.assertRaises(ValidationError) as context:
@@ -22,7 +21,6 @@ class ServiceModelTests(ServiceCreateMixin, TestCase):
 
         self.assertEqual(context.exception.messages[0],f'You can not save service image with size 100x100 px.\n'
                                                    f'Image should be at least 1920x800 px.')
-
 
     def test_service_with_valid_image_resolution_passes_validation(self):
         service = self._create_service()
@@ -33,11 +31,9 @@ class ServiceModelTests(ServiceCreateMixin, TestCase):
             self.fail('Validation failed during full_clean()! Service with valid image resolution does not pass validation!')
 
 
-
     def test_service_slug_with_only_valid_letters_creates_successfully(self):
         service = self._create_service()
         self.assertEqual(service.slug, 'prane-na-perdeta')
-
 
 
     def test_save_method_does_not_overwrite_manually_set_slugs(self):
