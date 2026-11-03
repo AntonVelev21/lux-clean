@@ -2,7 +2,7 @@ import io
 import tempfile
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
-from services.models import Service
+from services.models import Service, ServiceVariant
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp()
 
@@ -33,3 +33,16 @@ class ServiceCreateMixin:
             defaults.pop('slug')
 
         return Service.objects.create(**defaults)
+
+
+    def create_service_variant(self, **kwargs):
+        defaults = {
+            'service': self.create_service(),
+            'name': 'Голямо перде',
+            'price': 30,
+            'execution_time_in_minutes': 60,
+            'image': self._create_image(1920, 800)
+        }
+        defaults.update(kwargs)
+
+        return ServiceVariant.objects.create(**defaults)

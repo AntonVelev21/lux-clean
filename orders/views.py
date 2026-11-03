@@ -4,11 +4,11 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, TemplateView
-
 from core.emails.order_confirmation_email import send_order_confirmation_email
 from orders.forms import OrderCreateForm
 from orders.models import Order, OrderItem, ReservedHours
 from services.models import Service, ServiceVariant
+
 
 
 class CreateOrderView(CreateView):

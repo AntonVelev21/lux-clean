@@ -1,9 +1,6 @@
 import shutil
-from tkinter.font import names
-
 from django.test import TestCase, override_settings
 from django.urls.base import reverse
-
 from services.tests.mixins import ServiceCreateMixin, TEMP_MEDIA_ROOT
 
 

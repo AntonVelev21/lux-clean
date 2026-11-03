@@ -21,3 +21,36 @@ class OrderModelTests(OrderCreateMixin, TestCase):
             order_with_invalid_phone_number.full_clean()
 
         self.assertEqual(context.exception.messages[0], expected_error_message)
+
+
+    def test_order_with_valid_phone_number_passes_validation(self):
+        order = self.create_order(phone_number='0882909408')
+
+        try:
+            order.full_clean()
+
+        except ValidationError:
+            self.fail('Validation failed during full_clean()! Order with valid phone number does not pass validation!')
+
+
+    def test_order_item_passes_validation(self):
+        order_item = self.create_order_item()
+
+        try:
+            order_item.full_clean()
+
+        except ValidationError:
+            self.fail('Validation failed during full_clean()! Order Item with valid data does not pass validation!')
+
+
+    def test_reserved_hours_passes_validation(self):
+        reserved_hours = self.create_reserved_hours()
+
+        try:
+            reserved_hours.full_clean()
+
+        except ValidationError:
+            self.fail('Validation failed during full_clean()! Reserved Hours with valid data does not pass validation!')
+
+
+
