@@ -67,3 +67,16 @@ class OrderCreateMixin(ServiceCreateMixin):
         defaults.update(kwargs)
 
         return ReservedHours.objects.create(**defaults)
+
+
+    def return_order_create_form_data(self):
+        return {
+            'full_name': 'Anton Antonov Velev',
+            'phone_number': '088290940',
+            'email': 'velevanton80@gmail.com',
+            'city': CityChoices.SOFIA,
+            'address': 'кв. Горна баня, ул. Невен 1Б',
+            'requested_date': self.create_valid_requested_date(),
+            'total_price': 1000,
+            'total_execution_time_in_minutes': 120
+        }
