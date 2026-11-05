@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 from core.choices.city_choices import CityChoices
 from orders.models import Order, OrderItem, ReservedHours
 from services.tests.mixins import ServiceCreateMixin
@@ -12,22 +12,9 @@ class OrderCreateMixin(ServiceCreateMixin):
 
 
     def create_valid_requested_date(self):
-        example_date = timezone.now()
-        hour = int(example_date.hour)
-
-        if self.LAST_WORKING_HOUR > hour > self.FIRST_WORKING_HOUR:
-            return example_date
-
-        elif hour > self.LAST_WORKING_HOUR:
-            example_date += timedelta(days=1)
-            hours_to_go_back = (hour - self.LAST_WORKING_HOUR) - 1
-            example_date -= timedelta(hours=hours_to_go_back)
-
-        elif hour < self.FIRST_WORKING_HOUR:
-            hours_till_opening = (self.FIRST_WORKING_HOUR - hour) + 1
-            example_date += timedelta(hours=hours_till_opening)
-
-        return example_date
+        example_date = timezone.now() + timedelta(days=1)
+        valid_date = datetime(year=example_date.year, month=example_date.month, day=example_date.day, hour=self.FIRST_WORKING_HOUR)
+        return valid_date
 
 
     def create_order(self, **kwargs):
@@ -61,7 +48,7 @@ class OrderCreateMixin(ServiceCreateMixin):
         defaults = {
             'order': self.create_order(),
             'start_hour': self.create_valid_requested_date(),
-            'end_hour': self.create_valid_requested_date()
+            'end_hour': self.create_valid_requested_date() + timedelta(hours=3)
         }
 
         defaults.update(kwargs)
@@ -80,3 +67,22 @@ class OrderCreateMixin(ServiceCreateMixin):
             'total_price': 1000,
             'total_execution_time_in_minutes': 120
         }
+
+
+    def return_invalid_requested_date(self):
+        date = timezone.now() + timedelta(days=1)
+        invalid_minutes = 47
+        valid_hour = self.FIRST_WORKING_HOUR
+        return datetime(year=date.year, month=date.month, day=date.day, hour=valid_hour, minute=invalid_minutes)
+
+
+    def return_requested_date_with_hour_bigger_than_the_last_working_hour(self):
+        now = timezone.now()
+        invalid_hour = self.LAST_WORKING_HOUR + 1
+        return datetime(now.year, now.month, now.day, hour=invalid_hour)
+
+
+    def return_requested_date_with_hour_smaller_than_the_first_working_hour(self):
+        now = timezone.now() + timedelta(days=1)
+        invalid_hour = self.FIRST_WORKING_HOUR - 1
+        return datetime(now.year, now.month, now.day, hour=invalid_hour)
