@@ -2,12 +2,13 @@ from django.core.exceptions import ValidationError
 from django.forms.models import ModelForm
 from django.utils import timezone
 
-from orders.models import Order
+from orders.models import Order, ReservedHours
 
 
 class OrderCreateForm(ModelForm):
     FIRST_WORKING_HOUR = 9
     LAST_WORKING_HOUR = 17
+    VALID_HOURS = {00, 30}
 
     class Meta:
         model = Order
@@ -56,6 +57,8 @@ class OrderCreateForm(ModelForm):
             return requested_date
 
         now = timezone.now()
+        reserved_hours_for_the_day = ReservedHours.objects.filter(start_hour__date=requested_date)
+
 
         if requested_date < now:
             raise ValidationError('Моля изберете бъдещи час и дата.')
@@ -68,7 +71,16 @@ class OrderCreateForm(ModelForm):
         if requested_date.hour < self.FIRST_WORKING_HOUR:
             raise ValidationError('Избраният от Вас час не е в работното ни време. Моля, изберете час след 9:00.')
 
-        return requested_date
 
+        if requested_date.minute not in self.VALID_HOURS:
+            raise ValidationError('Избраният от Вас час не е валиден час за поръчка. Моля, изберете час завършващ на 00 или 30.')
+
+
+        for time_slot in reserved_hours_for_the_day:
+            if time_slot.start_hour.hour <= requested_date.hour < time_slot.end_hour.hour:
+                raise ValidationError('Избраният от Вас час се припокрива с друга поръчка. Моля, изберете свободен час от календара.')
+
+
+        return requested_date
 
 
