@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.dateparse import parse_date
 from django.views.generic import CreateView, TemplateView
+from core.choices.status_choices import StatusChoices
 from core.emails.order_confirmation_email import send_order_confirmation_email
 from orders.forms import OrderCreateForm
 from orders.models import Order, OrderItem
@@ -157,7 +158,7 @@ class CalendarView(TemplateView):
         if requested_date is None:
             requested_date = timezone.localdate()
 
-        orders = Order.objects.filter(requested_date__date=requested_date).only('requested_date', 'end_hour')
+        orders = Order.objects.filter(requested_date__date=requested_date).exclude(status=StatusChoices.DENIED).only('requested_date', 'end_hour')
 
         day_hours_slots = {
             '09:00':True,
