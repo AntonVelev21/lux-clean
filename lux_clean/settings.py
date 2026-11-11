@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Sofia'
 
 USE_I18N = True
 
@@ -221,12 +221,6 @@ UNFOLD = {
                         "icon": "shopping_cart",
                         "link": reverse_lazy("admin:orders_order_changelist"),
                         "badge": "core.admin_dashboard.new_orders_badge",
-                    },
-                    {
-                        "title": "Reserved hours",
-                        "icon": "event_available",
-                        "link": reverse_lazy("admin:orders_reservedhours_changelist"),
-                        "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": "Services",

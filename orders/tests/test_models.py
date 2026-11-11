@@ -43,14 +43,6 @@ class OrderModelTests(OrderCreateMixin, TestCase):
             self.fail('Validation failed during full_clean()! Order Item with valid data does not pass validation!')
 
 
-    def test_reserved_hours_passes_validation(self):
-        reserved_hours = self.create_reserved_hours()
-
-        try:
-            reserved_hours.full_clean()
-
-        except ValidationError:
-            self.fail('Validation failed during full_clean()! Reserved Hours with valid data does not pass validation!')
 
 
 

@@ -1,12 +1,14 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from django.utils import timezone
 from decimal import Decimal
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView, TemplateView
+from django.utils.dateparse import parse_date
+from django.views.generic import CreateView, TemplateView
 from core.emails.order_confirmation_email import send_order_confirmation_email
 from orders.forms import OrderCreateForm
-from orders.models import Order, OrderItem, ReservedHours
+from orders.models import Order, OrderItem
 from services.models import Service, ServiceVariant
 
 
@@ -17,7 +19,6 @@ class CreateOrderView(CreateView):
     template_name = 'orders/create.html'
     success_url = reverse_lazy('orders:confirmation')
 
-#Think about how can you cache the selected and check if there aren't any changes to skip the loop
 
     def _get_selected_variants(self):
         selected = {}
@@ -83,7 +84,7 @@ class CreateOrderView(CreateView):
 
         with transaction.atomic():
             self.object = form.save(commit=False)
-            self.object.total_execution_time_in_minutes = calculated_total_execution_time
+            self.object.end_hour = end_hour
 
             if calculated_real_total_price >= 200:
                 price_after_discount = calculated_real_total_price * Decimal(str(0.95))
@@ -103,12 +104,6 @@ class CreateOrderView(CreateView):
                     service=variant,
                     quantity=quantity
                 )
-
-            ReservedHours.objects.create(
-                order_id=self.object.id,
-                start_hour=self.object.requested_date,
-                end_hour=end_hour
-            )
 
             context = {
                 'full_name': self.object.full_name,
@@ -148,42 +143,52 @@ class OrderConfirmationView(TemplateView):
         return self.render_to_response({'order': confirmation})
 
 
-
-class CalendarView(ListView):
+class CalendarView(TemplateView):
     template_name = 'common/calendar.html'
-    model = ReservedHours
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(object_list=self.get_queryset(), **kwargs)
-        requested_date = self.request.GET.get('selected_date')
-        reserved_hours = ReservedHours.objects.filter(start_hour__date=requested_date)
-        day_hours_slots = {
-            9:True,
-            9.30: True,
-            10: True,
-            10.30: True,
-            11: True,
-            11.30: True,
-            12: True,
-            12.30: True,
-            13: True,
-            13.30: True,
-            14: True,
-            14.30: True,
-            15: True,
-            15.30: True,
-            16: True,
-            16.30: True,
-            17: True,
-            17.30: True
+        context = super().get_context_data(**kwargs)
 
+        try:
+            requested_date = parse_date(self.request.GET.get('selected_date', '') or '')
+        except ValueError:
+            requested_date = None
+
+        if requested_date is None:
+            requested_date = timezone.localdate()
+
+        orders = Order.objects.filter(requested_date__date=requested_date).only('requested_date', 'end_hour')
+
+        day_hours_slots = {
+            '09:00':True,
+            '09:30': True,
+            '10:00': True,
+            '10:30': True,
+            '11:00': True,
+            '11:30': True,
+            '12:00': True,
+            '12:30': True,
+            '13:00': True,
+            '13:30': True,
+            '14:00': True,
+            '14:30': True,
+            '15:00': True,
+            '15:30': True,
+            '16:00': True,
+            '16:30': True,
+            '17:00': True,
+            '17:30': True
         }
 
-        for time_slot in reserved_hours:
-            day_hours_slots[time_slot.start_hour.hour] = False
-            for hour in day_hours_slots:
-                if hour <= time_slot.end_hour.hour:
-                    day_hours_slots[hour] = False
+
+        for order in orders:
+            start_hour = timezone.localtime(order.requested_date).time()
+            end_hour = timezone.localtime(order.end_hour).time()
+
+            for slot in day_hours_slots:
+                curr_slot_time = datetime.strptime(slot, '%H:%M').time()
+                if start_hour <= curr_slot_time < end_hour:
+                    day_hours_slots[slot] = False
 
         context['day_hours_slots'] = day_hours_slots
         return context

@@ -1,11 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
-
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.contrib.filters.admin import ChoicesDropdownFilter, RangeDateFilter
+from unfold.contrib.filters.admin import ChoicesDropdownFilter
 from unfold.decorators import display
+from orders.models import Order, OrderItem
 
-from orders.models import Order, OrderItem, ReservedHours
 
 STATUS_LABELS = {
     "new": "info",
@@ -21,12 +20,6 @@ class OrderItemInline(TabularInline):
     tab = True
     autocomplete_fields = ["service"]
 
-
-class ReservedHoursInline(TabularInline):
-    model = ReservedHours
-    extra = 0
-    max_num = 1
-    tab = True
 
 
 @admin.register(Order)
@@ -57,14 +50,14 @@ class OrderAdmin(ModelAdmin):
     date_hierarchy = "requested_date"
     readonly_fields = ["created_at", "updated_at"]
     actions = ["mark_as_in_process", "mark_as_finished", "mark_as_denied"]
-    inlines = [OrderItemInline, ReservedHoursInline]
+    inlines = [OrderItemInline, ]
 
     fieldsets = (
         ("Client", {
             "fields": ("full_name", "phone_number", "email", "city", "address"),
         }),
         ("Order details", {
-            "fields": ("status", "requested_date", "total_price", "total_execution_time_in_minutes"),
+            "fields": ("status", "requested_date", "total_price"),
         }),
         ("Timestamps", {
             "fields": ("created_at", "updated_at"),
@@ -100,7 +93,3 @@ class OrderItemAdmin(ModelAdmin):
     autocomplete_fields = ["service"]
 
 
-@admin.register(ReservedHours)
-class ReservedHoursAdmin(ModelAdmin):
-    list_display = ["order", "start_hour", "end_hour"]
-    search_fields = ["=order__id", "order__full_name"]

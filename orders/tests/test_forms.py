@@ -1,5 +1,5 @@
 import shutil
-from datetime import timedelta, datetime
+from datetime import timedelta
 from django.utils import timezone
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
@@ -38,7 +38,7 @@ class OrderFormTests(OrderCreateMixin, TestCase):
         form_data = self.return_order_create_form_data()
         form_data['requested_date'] = date_with_smaller_hour_than_first_working_hour
         form = OrderCreateForm(data=form_data)
-        expected_error_message = 'Избраният от Вас час не е в работното ни време. Моля, изберете час след 9:00.'
+        expected_error_message = 'Избраният от Вас час не е в работното ни време. Моля, изберете час между 09:00 и 17:30.'
 
         self.assertFalse(form.is_valid())
         self.assertIn('requested_date', form.errors)
@@ -50,7 +50,7 @@ class OrderFormTests(OrderCreateMixin, TestCase):
         form_data = self.return_order_create_form_data()
         form_data['requested_date'] = date_with_bigger_hour_than_last_working_hour
         form = OrderCreateForm(data=form_data)
-        expected_error_message = 'Избраният от Вас час не е в работното ни време. Моля, изберете час преди 17:00.'
+        expected_error_message = 'Избраният от Вас час не е в работното ни време. Моля, изберете час между 09:00 и 17:30.'
 
         self.assertFalse(form.is_valid())
         self.assertIn('requested_date', form.errors)
@@ -70,7 +70,7 @@ class OrderFormTests(OrderCreateMixin, TestCase):
 
 
     def test_order_with_overlapping_requested_date_hours_fails_form_validation(self):
-        reserved_hours = self.create_reserved_hours()
+        order = self.create_order()
         form_data = self.return_order_create_form_data()
         form = OrderCreateForm(data=form_data)
         expected_error_message = 'Избраният от Вас час се припокрива с друга поръчка. Моля, изберете свободен час от календара.'

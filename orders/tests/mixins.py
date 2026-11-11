@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime
 from core.choices.city_choices import CityChoices
-from orders.models import Order, OrderItem, ReservedHours
+from orders.models import Order, OrderItem
 from services.tests.mixins import ServiceCreateMixin
 from django.utils import timezone
 
@@ -17,6 +17,11 @@ class OrderCreateMixin(ServiceCreateMixin):
         return valid_date
 
 
+    def create_valid_end_hour(self):
+        requested_date = self.create_valid_requested_date()
+        return  requested_date + timedelta(hours=3)
+
+
     def create_order(self, **kwargs):
         defaults = {
             'full_name': 'Anton Antonov Velev',
@@ -25,8 +30,8 @@ class OrderCreateMixin(ServiceCreateMixin):
             'city': CityChoices.SOFIA,
             'address': 'кв. Горна баня, ул. Невен 1Б',
             'requested_date': self.create_valid_requested_date(),
+            'end_hour': self.create_valid_end_hour(),
             'total_price': 1000,
-            'total_execution_time_in_minutes': 120
         }
         defaults.update(kwargs)
 
@@ -44,18 +49,6 @@ class OrderCreateMixin(ServiceCreateMixin):
         return OrderItem.objects.create(**defaults)
 
 
-    def create_reserved_hours(self, **kwargs):
-        defaults = {
-            'order': self.create_order(),
-            'start_hour': self.create_valid_requested_date(),
-            'end_hour': self.create_valid_requested_date() + timedelta(hours=3)
-        }
-
-        defaults.update(kwargs)
-
-        return ReservedHours.objects.create(**defaults)
-
-
     def return_order_create_form_data(self):
         return {
             'full_name': 'Anton Antonov Velev',
@@ -64,8 +57,8 @@ class OrderCreateMixin(ServiceCreateMixin):
             'city': CityChoices.SOFIA,
             'address': 'кв. Горна баня, ул. Невен 1Б',
             'requested_date': self.create_valid_requested_date(),
+            'end_hour': self.create_valid_end_hour(),
             'total_price': 1000,
-            'total_execution_time_in_minutes': 120
         }
 
 
