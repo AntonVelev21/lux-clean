@@ -79,3 +79,6 @@ class OrderCreateMixin(ServiceCreateMixin):
         now = timezone.now() + timedelta(days=1)
         invalid_hour = self.FIRST_WORKING_HOUR - 1
         return datetime(now.year, now.month, now.day, hour=invalid_hour)
+
+
+

@@ -31,6 +31,7 @@ class OrderAdmin(ModelAdmin):
         "city",
         "status_badge",
         "requested_date",
+        'end_hour',
         "formatted_total_price",
         "created_at",
     ]
