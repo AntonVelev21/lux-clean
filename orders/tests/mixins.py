@@ -81,4 +81,13 @@ class OrderCreateMixin(ServiceCreateMixin):
         return datetime(now.year, now.month, now.day, hour=invalid_hour)
 
 
-
+    def return_order_data(self):
+        return {
+            'variant_1': 1,
+            'full_name': 'Anton Velev',
+            'phone_number': '0882909408',
+            'email': 'velevanton80@gmail.com',
+            'city': 'sofia',
+            'address': 'ul. Primerna, bl. 207, et.5, ap. 19',
+            'requested_date': self.create_valid_requested_date()
+        }

@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, time
 from django.utils import timezone
 from decimal import Decimal
 from django.db import transaction
@@ -76,11 +76,17 @@ class CreateOrderView(CreateView):
             calculated_real_total_price += variant.price * quantity
             calculated_total_execution_time += variant.execution_time_in_minutes * quantity
 
+        end_hour = requested_date + timedelta(minutes=calculated_total_execution_time)
 
-        end_hour = requested_date + timedelta(hours=calculated_total_execution_time / 60)
+        local_start = timezone.localtime(requested_date)
+        local_end = timezone.localtime(end_hour)
 
-        if end_hour.hour >= 18.30:
-            form.add_error(None, "Вашата поръчка ще надхвърля максималното ни работно време (до 18:30). Моля, изберете по-ранен час или по-малко услуги.")
+        if local_end.date() > local_start.date() or local_end.time() > time(18, 30):
+            form.add_error(
+                None,
+                "Вашата поръчка ще надхвърля максималното ни работно време (до 18:30). "
+                "Моля, изберете по-ранен час или по-малко услуги."
+            )
             return self.form_invalid(form)
 
         with transaction.atomic():
