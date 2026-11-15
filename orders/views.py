@@ -66,7 +66,6 @@ class CreateOrderView(CreateView):
         has_discount = False
         selected_variants = self._get_selected_variants()
         requested_date = form.cleaned_data['requested_date']
-        print(dict(self.request.POST.items()))
 
         if not selected_variants:
             form.add_error(None, "Моля, изберете поне една услуга от калкулатора.")

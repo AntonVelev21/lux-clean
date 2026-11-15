@@ -105,3 +105,23 @@ class OrderViewTests(OrderCreateMixin, TestCase):
         order, variant, data = self._process_order_create_test()
         queryset = OrderItem.objects.filter(order=order, service=variant, quantity=3)
         self.assertTrue(queryset.exists())
+
+
+    def test_order_confirmation_view_returns_order_confirmation_template_after_order_creation(self):
+        order, variant, data = self._process_order_create_test()
+        url = reverse('orders:confirmation')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'orders/confirmation.html')
+        self.assertTemplateNotUsed(response, 'web/home-page.html')
+
+
+    def test_order_confirmation_view_redirects_to_home_page_template_when_order_not_created(self):
+        url = reverse('orders:confirmation')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'orders/confirmation.html')
+
+
