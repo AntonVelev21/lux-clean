@@ -1,7 +1,5 @@
-from datetime import datetime
-
+from django.utils import timezone
 from django.core.management import BaseCommand
-
 from core.choices.status_choices import StatusChoices
 from orders.models import Order
 
@@ -11,31 +9,33 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        now = datetime.now()
-        orders_for_the_day = Order.objects.filter(requested_date__date=now.date()).select_related('reserved_hours')
-        changed_to_finished = 0
-        changed_to_in_process = 0
+        now = timezone.localtime()
+        updatable = [StatusChoices.NEW, StatusChoices.IN_PROCESS]
+        orders_for_the_day = Order.objects.filter(status__in=updatable)
+        finished = 0
+        in_process = 0
 
         for order in orders_for_the_day:
-            if now.hour > order.reserved_hours.end_hour.hour:
-                order.status = StatusChoices.FINISHED
-                order.save()
-                changed_to_finished += 1
+            start = timezone.localtime(order.requested_date)
+            end = timezone.localtime(order.end_hour)
 
+            if now >= end:
+                new_status = StatusChoices.FINISHED
+            elif now >= start:
+                new_status = StatusChoices.IN_PROCESS
             else:
-                in_process = False
-                if now.hour >= order.reserved_hours.start_hour.hour:
-                    if order.reserved_hours.end_hour.hour > now.hour:
-                        in_process = True
-                    elif order.reserved_hours.end_hour.hour == now.hour:
-                        if order.reserved_hours.end_hour.minute >= now.minute:
-                            in_process = True
-                if in_process:
-                    order.status = StatusChoices.IN_PROCESS
-                    order.save()
-                    changed_to_in_process += 1
+                continue
 
-        self.stdout.write(self.style.SUCCESS(f'Operation finished. {changed_to_finished} orders were changed to "FINISHED" '
-                                             f'and {changed_to_in_process} orders were changed to "IN PROCESS"'))
+            if order.status != new_status:
+                order.status = new_status
+                order.save(update_fields=["status"])
+                if new_status == StatusChoices.FINISHED:
+                    finished += 1
+                else:
+                    in_process += 1
+
+        self.stdout.write(self.style.SUCCESS(
+            f'Done. {finished} orders -> "FINISHED", {in_process} orders -> "IN PROCESS".'
+        ))
 
 
