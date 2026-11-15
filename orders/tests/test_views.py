@@ -2,6 +2,8 @@ import shutil
 from datetime import timedelta
 from decimal import Decimal
 from django.test.testcases import TestCase
+from django.utils import timezone
+from django.core import mail
 from django.test.utils import override_settings
 from django.urls.base import reverse
 from orders.models import Order, OrderItem
@@ -11,11 +13,45 @@ from services.tests.mixins import TEMP_MEDIA_ROOT
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
-class OrderViewTests(OrderCreateMixin, TestCase):
+class OrderViewsTests(OrderCreateMixin, TestCase):
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
         super().tearDownClass()
+
+
+    @staticmethod
+    def _format_expected_message(
+            full_name,
+            requested_date,
+            order_items,
+            total_price,
+            has_discount=False,
+    ):
+        formatted_date = requested_date.strftime("%d.%m.%Y")
+        formatted_time = requested_date.strftime("%H:%M")
+        total_price_str = f"{total_price:.2f}"
+        text_order_info = "\n".join(
+            f"- {service}: {quantity} бр" for service, quantity in order_items
+        )
+
+        if has_discount:
+            price_after_discount = total_price * Decimal(str(0.95))
+            price_after_discount_str = f"{price_after_discount:.2f}"
+            price_info_text = (
+                f"Стара цена: {total_price_str} € -> "
+                f"Цена с приложена 5% отстъпка: {price_after_discount_str} €\n"
+            )
+        else:
+            price_info_text = f"С цена: {total_price_str} €\n"
+
+        return (
+            f"Здравейте, {full_name}!\n\n"
+            f"Вашата резервация за почистване на:\n{text_order_info}\n\n"
+            f"{price_info_text}"
+            f"на {formatted_date} от {formatted_time} (*ориентировъчен час) беше успешна!\n\n"
+            f"Ще се свържем допълнително с вас за потвърждение и уточняване на детайлите."
+        )
 
 
     def _process_request_with_invalid_variant_test(self, data):
@@ -42,14 +78,14 @@ class OrderViewTests(OrderCreateMixin, TestCase):
             variant = self.create_service_variant()
         data.pop('variant_1')
         data[f'variant_{variant.id}'] = 3
-        response = self.client.post(url, data=data)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(url, data=data)
         queryset = Order.objects.filter(address=data['address'])
 
         self.assertEqual(response.status_code, 302)
         self.assertTrue(queryset.exists())
 
         order = Order.objects.get(address=data['address'])
-
         return order, variant, data
 
 
@@ -108,7 +144,7 @@ class OrderViewTests(OrderCreateMixin, TestCase):
 
 
     def test_order_confirmation_view_returns_order_confirmation_template_after_order_creation(self):
-        order, variant, data = self._process_order_create_test()
+        self._process_order_create_test()
         url = reverse('orders:confirmation')
         response = self.client.get(url)
 
@@ -125,3 +161,21 @@ class OrderViewTests(OrderCreateMixin, TestCase):
         self.assertTemplateNotUsed(response, 'orders/confirmation.html')
 
 
+    def test_confirmation_email_sends_correct_when_order_creates_successfully(self):
+        order, variant, data = self._process_order_create_test()
+        expected_email_subject = 'Потвърждение на вашата резервация'
+        expected_receiver = order.email
+        order_item = OrderItem.objects.get(order=order, service=variant, quantity=3)
+        order_items_data = {order_item.service: order_item.quantity}
+
+        expected_message = self._format_expected_message(
+            full_name=order.full_name,
+            requested_date=timezone.localtime(order.requested_date),
+            order_items=order_items_data.items(),
+            total_price=order.total_price,
+            has_discount=False
+        )
+
+        self.assertEqual(mail.outbox[0].subject, expected_email_subject)
+        self.assertEqual(mail.outbox[0].to[0], expected_receiver)
+        self.assertEqual(mail.outbox[0].body, expected_message)
