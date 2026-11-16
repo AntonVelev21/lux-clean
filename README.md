@@ -35,7 +35,8 @@ The interface is in Bulgarian, the code and the admin panel are in English.
 | ![Admin dashboard](static/images_for_readme/django_admin_dashboard.png) | ![Admin orders](static/images_for_readme/django_admin_orders.png) |
  
 </details>
-### Features
+
+## Features
  
 - Service catalog with variants, prices and execution times
 - Price calculator that updates the total as quantities change
