@@ -21,7 +21,7 @@ jobs:
         run: docker compose build backend
 
       - name: Start the postgres container
-        run: docker compose up -d postgres
+        run: docker compose up -d --wait postgres
 
       - name: Run migrations
         run: docker compose run --rm backend python manage.py migrate --noinput
