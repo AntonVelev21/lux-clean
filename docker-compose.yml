@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:18-alpine
     env_file:
-      - .env
+      - .env.ci
     volumes:
       - postgres_data:/var/lib/postgresql
 
@@ -14,7 +14,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - .env.ci
     depends_on:
       - postgres
 
