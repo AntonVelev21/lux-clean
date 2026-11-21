@@ -77,7 +77,7 @@ class OrderCreateForm(ModelForm):
         for order in orders:
             start = timezone.localtime(order.requested_date).time()
             end = timezone.localtime(order.end_hour).time()
-            if start <= requested_time < end:
+            if start <= requested_time <= end:
                 raise ValidationError(
                     'Избраният от Вас час се припокрива с друга поръчка. Моля, изберете свободен час от календара.')
 

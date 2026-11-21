@@ -88,6 +88,22 @@ class CreateOrderView(CreateView):
             )
             return self.form_invalid(form)
 
+        local_dt = timezone.localtime(requested_date)
+        orders = Order.objects.filter(
+            requested_date__date=local_dt.date()
+        ).only('requested_date', 'end_hour')
+
+        for order in orders:
+            start = timezone.localtime(order.requested_date).time()
+            end = timezone.localtime(order.end_hour).time()
+            if start <= local_end.time() <= end:
+                form.add_error(
+                    None,
+                    'Избраният от Вас час се припокрива с друга поръчка. Моля, изберете свободен час от календара.'
+                )
+                return self.form_invalid(form)
+
+
         with transaction.atomic():
             self.object = form.save(commit=False)
             self.object.end_hour = end_hour
@@ -193,7 +209,7 @@ class CalendarView(TemplateView):
 
             for slot in day_hours_slots:
                 curr_slot_time = datetime.strptime(slot, '%H:%M').time()
-                if start_hour <= curr_slot_time < end_hour:
+                if start_hour <= curr_slot_time <= end_hour:
                     day_hours_slots[slot] = False
 
         context['day_hours_slots'] = day_hours_slots

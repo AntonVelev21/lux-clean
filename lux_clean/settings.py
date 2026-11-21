@@ -160,7 +160,7 @@ ANYMAIL = {
 BREVO_API_URL = os.getenv('BREVO_API_URL')
 
 
-DEFAULT_FROM_EMAIL = "antonvelev03@gmail.com"
+DEFAULT_FROM_EMAIL = "cleanservices067@gmail.com"
 
 
 # Django Unfold admin theme
