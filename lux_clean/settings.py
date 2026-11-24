@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import sentry_sdk
 import os, dotenv
 
 from django.templatetags.static import static
@@ -31,6 +31,14 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
+
+#Put it when you get domain and SSL/TLS certificate
+#if not DEBUG:
+#    SECURE_SSL_REDIRECT = True
+#    SESSION_COOKIE_SECURE = True
+#    CSRF_COOKIE_SECURE = True
+#    SECURE_HSTS_SECONDS = 300
+#    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
@@ -52,7 +60,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -166,6 +173,24 @@ DEFAULT_FROM_EMAIL = "cleanservices067@gmail.com"
 # Django Unfold admin theme
 # https://unfoldadmin.com/docs/configuration/settings/
 
+
+sentry_sdk.init(
+    dsn="https://2af2bceabae77a343440db7284ad84eb@o4512469291237376.ingest.de.sentry.io/4512469392293968",
+    # To customize collected data (user info, request bodies, AI inputs/outputs),
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/
+    # data_collection={"user_info": False},
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for tracing.
+    traces_sample_rate=1.0,
+    # Set profile_session_sample_rate to 1.0 to profile 100%
+    # of profile sessions.
+    profile_session_sample_rate=1.0,
+    # Set profile_lifecycle to "trace" to automatically
+    # run the profiler on when there is an active transaction
+    profile_lifecycle="trace",
+)
+
+
 UNFOLD = {
     "SITE_TITLE": "LuxClean",
     "SITE_HEADER": "LuxClean",
@@ -260,8 +285,4 @@ UNFOLD = {
 
 }
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://racemous-nila-derogatory.ngrok-free.dev',
-    'https://*.ngrok-free.dev',
-]
 
