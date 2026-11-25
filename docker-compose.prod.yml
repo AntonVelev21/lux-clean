@@ -1,3 +1,5 @@
+name: lux_clean_prod
+
 services:
   backend:
     build: .

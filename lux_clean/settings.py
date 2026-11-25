@@ -34,6 +34,9 @@ ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if
 
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()]
 
+
+SITE_URL = os.getenv("SITE_URL", "http://localhost:8000").rstrip("/")
+
 #Put it when you get domain and SSL/TLS certificate
 #if not DEBUG:
 #    SECURE_SSL_REDIRECT = True
