@@ -172,7 +172,7 @@ ANYMAIL = {
 BREVO_API_URL = os.getenv('BREVO_API_URL')
 
 
-DEFAULT_FROM_EMAIL = "cleanservices067@gmail.com"
+DEFAULT_FROM_EMAIL = "LuxClean <no-reply@antonvelev.dev>"
 
 
 # Django Unfold admin theme

@@ -37,9 +37,11 @@ def send_order_confirmation_email(context):
         f"Ще се свържем допълнително с вас за потвърждение и уточняване на детайлите."
     )
 
-    site_url = settings.SITE_URL
+    site_url = settings.SITE_URL.rstrip("/")
 
-    html = render_to_string(template_name, context, site_url)
+    context['site_url'] = site_url
+
+    html = render_to_string(template_name, context)
 
     send_mail(
         subject=subject,
