@@ -37,13 +37,13 @@ CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "")
 
 SITE_URL = os.getenv("SITE_URL", "http://localhost:8000").rstrip("/")
 
-#Put it when you get domain and SSL/TLS certificate
-#if not DEBUG:
-#    SECURE_SSL_REDIRECT = True
-#    SESSION_COOKIE_SECURE = True
-#    CSRF_COOKIE_SECURE = True
-#    SECURE_HSTS_SECONDS = 300
-#    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 300
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
