@@ -2,6 +2,8 @@
  
 A short technical reference for LuxClean. For installation steps, see the [README](README.md).
  
+**Live site:** [https://YOUR-DOMAIN](https://YOUR-DOMAIN)
+ 
 ## Overview
  
 Customers pick a service variant, fill in the order form with a live price calculator, choose a free time slot and receive a confirmation email. The owner manages orders and services from a custom admin panel. Customers do not need an account.
@@ -114,9 +116,28 @@ The confirmation email (plain text and HTML, in Bulgarian) is sent through djang
  
 Settings come from environment variables in `.env`: `SECRET_KEY`, `DEBUG`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DB_HOST`, `DB_PORT`, `EMAIL_BACKEND`, `BREVO_API_KEY` and `BREVO_API_URL`. The time zone is `Europe/Sofia`.
  
+## Deployment
+ 
+The live site runs on an AWS EC2 instance, with every part of the stack in Docker containers:
+ 
+| Component | Role |
+|-----------|------|
+| **AWS EC2** | The server that hosts the containers |
+| **Nginx** | Reverse proxy: receives incoming HTTP requests and forwards them to Gunicorn |
+| **Gunicorn** | Production WSGI server that runs the Django application |
+| **PostgreSQL** | The database, in its own container |
+ 
+Request flow:
+ 
+```
+Browser  →  Nginx (reverse proxy)  →  Gunicorn (WSGI)  →  Django  →  PostgreSQL
+```
+ 
+In production, set `DEBUG` to anything other than `True` and fill in the real database and Brevo credentials in `.env` on the server.
+ 
 ## Docker and CI
  
-- `docker-compose.yml` runs the app and PostgreSQL 18. The container uses the Django development server, so it is meant for development and testing.
+- `docker-compose.yml` runs the app and PostgreSQL 18 with the Django development server, for local development and testing. The live site runs behind Gunicorn and Nginx instead (see [Deployment](#deployment)).
 - GitHub Actions (`.github/workflows/ci.yml`) runs on pushes and pull requests to `main`. It builds the image, runs the migrations and runs the tests.
 ## Testing
  
@@ -130,6 +151,5 @@ python manage.py test
  
 - The overlap check only tests the start of a new order, not its full duration, and it counts denied orders as taken. There is also no locking, so two simultaneous requests for the same slot could both pass.
 - The confirmation email is sent during the request. A provider outage after the order is saved would show an error page.
-- Production still needs a proper WSGI server, `collectstatic`, media serving and environment-based settings (`ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `DEFAULT_FROM_EMAIL` are hardcoded now).
+- `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `DEFAULT_FROM_EMAIL` are hardcoded in the settings instead of being read from environment variables.
 - Only Sofia is available as a city, and orders are not linked to user accounts.
- 

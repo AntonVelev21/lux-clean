@@ -2,9 +2,11 @@
  
 A web platform designed to serve a real cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
  
+**Live site:** [https://YOUR-DOMAIN](https://YOUR-DOMAIN)
+ 
 Customers browse the services, build an order with a live price calculator, pick a free time slot and get a confirmation email. The owner manages everything from a custom admin panel with a small business dashboard.
  
-> **Status:** the project was built for a real business but was never put into production. It is a complete, working application that is still being improved. See [DOCUMENTATION.md](DOCUMENTATION.md) for how it works and for the known limitations.
+> **Status:** the project is deployed on AWS EC2 and runs in Docker behind Nginx and Gunicorn. It is a complete, working application that is still being improved. See [DOCUMENTATION.md](DOCUMENTATION.md) for how it works, how it is deployed and the known limitations.
  
 The interface is in Bulgarian, the code and the admin panel are in English.
  
@@ -65,7 +67,8 @@ The interface is in Bulgarian, the code and the admin panel are in English.
 | **Frontend** | Tailwind CSS 4, Django Templates, HTMX, vanilla JavaScript |
 | **Admin** | django-unfold |
 | **Email** | django-anymail (Brevo API) |
-| **Tooling** | Docker, Docker Compose, GitHub Actions, Node.js / npm (Tailwind build), Git |
+| **Deployment** | AWS EC2, Docker, Nginx (reverse proxy), Gunicorn (WSGI server) |
+| **Tooling** | Docker Compose, GitHub Actions, Node.js / npm (Tailwind build), Git |
 | **Dev environment** | PyCharm, virtualenv (`.venv`) |
  
 ## Getting started
@@ -127,6 +130,10 @@ npm run build:css     # one-off, minified
 npm run watch:css     # rebuild on change while developing
 ```
  
+## Deployment
+ 
+The live site runs on an AWS EC2 instance. Everything runs in Docker: Gunicorn serves the Django app and Nginx sits in front of it as a reverse proxy. See [DOCUMENTATION.md](DOCUMENTATION.md#deployment) for the details.
+ 
 ## Running the tests
  
 ```bash
@@ -137,9 +144,8 @@ There are 28 tests covering the models, forms and views of the `orders` and `ser
  
 ## Documentation
  
-How the database, the ordering rules, the admin and the deployment setup work is described in [DOCUMENTATION.md](DOCUMENTATION.md).
+How the database, the ordering rules, the admin and the deployment work is described in [DOCUMENTATION.md](DOCUMENTATION.md).
  
 ## Author
  
 **Anton Velev:** [LinkedIn](https://www.linkedin.com/in/anton-velev-python/) - [GitHub](https://github.com/AntonVelev21)
- 
