@@ -2,7 +2,7 @@
  
 A web platform designed to serve a real cleaning business, built with **Django**, **Tailwind CSS** and **PostgreSQL**.
  
-**Live site:** [https://YOUR-DOMAIN](https://YOUR-DOMAIN)
+**Live site:** [https://luxclean.antonvelev.dev/](https://luxclean.antonvelev.dev/)
  
 Customers browse the services, build an order with a live price calculator, pick a free time slot and get a confirmation email. The owner manages everything from a custom admin panel with a small business dashboard.
  
