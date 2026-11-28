@@ -22,7 +22,7 @@ class ChangeOrderStatusTests(OrderCreateMixin, TestCase):
     @staticmethod
     def _call_command_and_return_result_message():
         out = StringIO()
-        call_command('change_orders_status', stdout=out)
+        call_command('change_orders_status', stdout=out, no_color=True)
         return out.getvalue().rstrip('\n')
 
 
@@ -30,7 +30,7 @@ class ChangeOrderStatusTests(OrderCreateMixin, TestCase):
         if denied:
             order.status = StatusChoices.DENIED
             order.save()
-        result_message = self._call_command_and_return_result_message()
+        result_message = str(self._call_command_and_return_result_message())
         expected_message = f'Done. 0 orders -> "FINISHED", 0 orders -> "IN PROCESS".'
 
 
